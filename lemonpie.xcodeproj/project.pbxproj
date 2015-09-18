@@ -1,0 +1,510 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */; };
+		87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971021BAC6BBA004D0AA3 /* ViewController.swift */; };
+		87A971061BAC6BBA004D0AA3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87A971041BAC6BBA004D0AA3 /* Main.storyboard */; };
+		87A971081BAC6BBA004D0AA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87A971071BAC6BBA004D0AA3 /* Assets.xcassets */; };
+		87A9710B1BAC6BBA004D0AA3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87A971091BAC6BBA004D0AA3 /* LaunchScreen.storyboard */; };
+		87A971161BAC6BBB004D0AA3 /* lemonpieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971151BAC6BBB004D0AA3 /* lemonpieTests.swift */; };
+		87A971211BAC6BBB004D0AA3 /* lemonpieUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971201BAC6BBB004D0AA3 /* lemonpieUITests.swift */; };
+		87A9712F1BAC6DE8004D0AA3 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A9712E1BAC6DE8004D0AA3 /* Pie.swift */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		87A971121BAC6BBB004D0AA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87A970F51BAC6BBA004D0AA3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87A970FC1BAC6BBA004D0AA3;
+			remoteInfo = lemonpie;
+		};
+		87A9711D1BAC6BBB004D0AA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87A970F51BAC6BBA004D0AA3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87A970FC1BAC6BBA004D0AA3;
+			remoteInfo = lemonpie;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		87A970FD1BAC6BBA004D0AA3 /* lemonpie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lemonpie.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		87A971021BAC6BBA004D0AA3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		87A971051BAC6BBA004D0AA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		87A971071BAC6BBA004D0AA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87A9710A1BAC6BBA004D0AA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		87A9710C1BAC6BBA004D0AA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87A971111BAC6BBB004D0AA3 /* lemonpieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lemonpieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		87A971151BAC6BBB004D0AA3 /* lemonpieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lemonpieTests.swift; sourceTree = "<group>"; };
+		87A971171BAC6BBB004D0AA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87A9711C1BAC6BBB004D0AA3 /* lemonpieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lemonpieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		87A971201BAC6BBB004D0AA3 /* lemonpieUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lemonpieUITests.swift; sourceTree = "<group>"; };
+		87A971221BAC6BBB004D0AA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87A9712E1BAC6DE8004D0AA3 /* Pie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		87A970FA1BAC6BBA004D0AA3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A9710E1BAC6BBB004D0AA3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A971191BAC6BBB004D0AA3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		87A970F41BAC6BBA004D0AA3 = {
+			isa = PBXGroup;
+			children = (
+				87A970FF1BAC6BBA004D0AA3 /* lemonpie */,
+				87A971141BAC6BBB004D0AA3 /* lemonpieTests */,
+				87A9711F1BAC6BBB004D0AA3 /* lemonpieUITests */,
+				87A970FE1BAC6BBA004D0AA3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		87A970FE1BAC6BBA004D0AA3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				87A970FD1BAC6BBA004D0AA3 /* lemonpie.app */,
+				87A971111BAC6BBB004D0AA3 /* lemonpieTests.xctest */,
+				87A9711C1BAC6BBB004D0AA3 /* lemonpieUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		87A970FF1BAC6BBA004D0AA3 /* lemonpie */ = {
+			isa = PBXGroup;
+			children = (
+				87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */,
+				87A9712E1BAC6DE8004D0AA3 /* Pie.swift */,
+				87A971021BAC6BBA004D0AA3 /* ViewController.swift */,
+				87A971041BAC6BBA004D0AA3 /* Main.storyboard */,
+				87A971071BAC6BBA004D0AA3 /* Assets.xcassets */,
+				87A971091BAC6BBA004D0AA3 /* LaunchScreen.storyboard */,
+				87A9710C1BAC6BBA004D0AA3 /* Info.plist */,
+			);
+			path = lemonpie;
+			sourceTree = "<group>";
+		};
+		87A971141BAC6BBB004D0AA3 /* lemonpieTests */ = {
+			isa = PBXGroup;
+			children = (
+				87A971151BAC6BBB004D0AA3 /* lemonpieTests.swift */,
+				87A971171BAC6BBB004D0AA3 /* Info.plist */,
+			);
+			path = lemonpieTests;
+			sourceTree = "<group>";
+		};
+		87A9711F1BAC6BBB004D0AA3 /* lemonpieUITests */ = {
+			isa = PBXGroup;
+			children = (
+				87A971201BAC6BBB004D0AA3 /* lemonpieUITests.swift */,
+				87A971221BAC6BBB004D0AA3 /* Info.plist */,
+			);
+			path = lemonpieUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		87A970FC1BAC6BBA004D0AA3 /* lemonpie */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87A971251BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpie" */;
+			buildPhases = (
+				87A970F91BAC6BBA004D0AA3 /* Sources */,
+				87A970FA1BAC6BBA004D0AA3 /* Frameworks */,
+				87A970FB1BAC6BBA004D0AA3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = lemonpie;
+			productName = lemonpie;
+			productReference = 87A970FD1BAC6BBA004D0AA3 /* lemonpie.app */;
+			productType = "com.apple.product-type.application";
+		};
+		87A971101BAC6BBB004D0AA3 /* lemonpieTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87A971281BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpieTests" */;
+			buildPhases = (
+				87A9710D1BAC6BBB004D0AA3 /* Sources */,
+				87A9710E1BAC6BBB004D0AA3 /* Frameworks */,
+				87A9710F1BAC6BBB004D0AA3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87A971131BAC6BBB004D0AA3 /* PBXTargetDependency */,
+			);
+			name = lemonpieTests;
+			productName = lemonpieTests;
+			productReference = 87A971111BAC6BBB004D0AA3 /* lemonpieTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		87A9711B1BAC6BBB004D0AA3 /* lemonpieUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87A9712B1BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpieUITests" */;
+			buildPhases = (
+				87A971181BAC6BBB004D0AA3 /* Sources */,
+				87A971191BAC6BBB004D0AA3 /* Frameworks */,
+				87A9711A1BAC6BBB004D0AA3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87A9711E1BAC6BBB004D0AA3 /* PBXTargetDependency */,
+			);
+			name = lemonpieUITests;
+			productName = lemonpieUITests;
+			productReference = 87A9711C1BAC6BBB004D0AA3 /* lemonpieUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		87A970F51BAC6BBA004D0AA3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "mikan-labs";
+				TargetAttributes = {
+					87A970FC1BAC6BBA004D0AA3 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					87A971101BAC6BBB004D0AA3 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 87A970FC1BAC6BBA004D0AA3;
+					};
+					87A9711B1BAC6BBB004D0AA3 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 87A970FC1BAC6BBA004D0AA3;
+					};
+				};
+			};
+			buildConfigurationList = 87A970F81BAC6BBA004D0AA3 /* Build configuration list for PBXProject "lemonpie" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 87A970F41BAC6BBA004D0AA3;
+			productRefGroup = 87A970FE1BAC6BBA004D0AA3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				87A970FC1BAC6BBA004D0AA3 /* lemonpie */,
+				87A971101BAC6BBB004D0AA3 /* lemonpieTests */,
+				87A9711B1BAC6BBB004D0AA3 /* lemonpieUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		87A970FB1BAC6BBA004D0AA3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A9710B1BAC6BBA004D0AA3 /* LaunchScreen.storyboard in Resources */,
+				87A971081BAC6BBA004D0AA3 /* Assets.xcassets in Resources */,
+				87A971061BAC6BBA004D0AA3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A9710F1BAC6BBB004D0AA3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A9711A1BAC6BBB004D0AA3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		87A970F91BAC6BBA004D0AA3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A9712F1BAC6DE8004D0AA3 /* Pie.swift in Sources */,
+				87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */,
+				87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A9710D1BAC6BBB004D0AA3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A971161BAC6BBB004D0AA3 /* lemonpieTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A971181BAC6BBB004D0AA3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A971211BAC6BBB004D0AA3 /* lemonpieUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		87A971131BAC6BBB004D0AA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87A970FC1BAC6BBA004D0AA3 /* lemonpie */;
+			targetProxy = 87A971121BAC6BBB004D0AA3 /* PBXContainerItemProxy */;
+		};
+		87A9711E1BAC6BBB004D0AA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87A970FC1BAC6BBA004D0AA3 /* lemonpie */;
+			targetProxy = 87A9711D1BAC6BBB004D0AA3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		87A971041BAC6BBA004D0AA3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87A971051BAC6BBA004D0AA3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		87A971091BAC6BBA004D0AA3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87A9710A1BAC6BBA004D0AA3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		87A971231BAC6BBB004D0AA3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		87A971241BAC6BBB004D0AA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		87A971261BAC6BBB004D0AA3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = lemonpie/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mikan-labs.lemonpie";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		87A971271BAC6BBB004D0AA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = lemonpie/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mikan-labs.lemonpie";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		87A971291BAC6BBB004D0AA3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = lemonpieTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mikan-labs.lemonpieTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lemonpie.app/lemonpie";
+			};
+			name = Debug;
+		};
+		87A9712A1BAC6BBB004D0AA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = lemonpieTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mikan-labs.lemonpieTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lemonpie.app/lemonpie";
+			};
+			name = Release;
+		};
+		87A9712C1BAC6BBB004D0AA3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = lemonpieUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mikan-labs.lemonpieUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = lemonpie;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		87A9712D1BAC6BBB004D0AA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = lemonpieUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mikan-labs.lemonpieUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = lemonpie;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		87A970F81BAC6BBA004D0AA3 /* Build configuration list for PBXProject "lemonpie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87A971231BAC6BBB004D0AA3 /* Debug */,
+				87A971241BAC6BBB004D0AA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87A971251BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87A971261BAC6BBB004D0AA3 /* Debug */,
+				87A971271BAC6BBB004D0AA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		87A971281BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpieTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87A971291BAC6BBB004D0AA3 /* Debug */,
+				87A9712A1BAC6BBB004D0AA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		87A9712B1BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpieUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87A9712C1BAC6BBB004D0AA3 /* Debug */,
+				87A9712D1BAC6BBB004D0AA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 87A970F51BAC6BBA004D0AA3 /* Project object */;
+}
