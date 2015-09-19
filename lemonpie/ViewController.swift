@@ -16,12 +16,20 @@ class ViewController: UIViewController {
 		let screenWidth = self.view.bounds.width
 		let screenHeight = self.view.bounds.height
 		let shorter = min(screenWidth, screenHeight)
-		
-		let testDraw = Pie(frame: CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter))
-		testDraw.addPiece(6.5, end: 9)
-		testDraw.addPiece(10, end: 10.5)
 
-		self.view.addSubview(testDraw)
+		let pieClock = Pie(frame: CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter))
+		let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+		
+		let a = calendar.dateWithEra(1, year: 2015, month: 9, day: 20, hour: 1, minute: 0, second: 0, nanosecond: 0)!
+		let b = calendar.dateWithEra(1, year: 2015, month: 9, day: 20, hour: 2, minute: 0, second: 0, nanosecond: 0)!
+		let c = calendar.dateWithEra(1, year: 2015, month: 9, day: 20, hour: 9, minute: 0, second: 0, nanosecond: 0)!
+		let d = calendar.dateWithEra(1, year: 2015, month: 9, day: 20, hour: 17, minute: 0, second: 0, nanosecond: 0)!
+
+		pieClock.addPiece(a, end: b)
+		pieClock.addPiece(c, end: d)
+		pieClock.addHourHand(NSDate())
+
+		self.view.addSubview(pieClock)
 	}
 
 	override func didReceiveMemoryWarning() {

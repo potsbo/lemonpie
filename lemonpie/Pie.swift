@@ -8,18 +8,38 @@
 
 import UIKit
 
+extension NSDate {
+	var hour: Double {
+		get {
+			let calendar = NSCalendar.currentCalendar()
+			let components = calendar.components([.Hour, .Minute], fromDate: self)
+			return Double(60 * components.hour + components.minute) / 60.0
+		}
+	}
+	var minute: Double {
+		get {
+			let calendar = NSCalendar.currentCalendar()
+			let components = calendar.components([.Minute, .Second], fromDate: self)
+			return Double(60 * components.minute + components.second) / 60.0
+		}
+	}
+}
+
 class Pie: UIView {
 	var pieces: [Piece] = []
-	func addPiece(start: Double, end: Double){
-		pieces.append(Piece(frame: frame, start: start, end: end))
+	func addPiece(start: NSDate, end: NSDate){
+		pieces.append(Piece(frame: frame, start: start.hour, end: end.hour))
 	}
 
+	func addHourHand(now: NSDate){
+		pieces.append(Piece(frame: frame, start: now.hour, end: now.hour))
+	}
+	
 	override func drawRect(rect: CGRect) {
 		for piece in pieces {
 			piece.draw()
 		}
 	}
-
 }
 
 class Piece {
