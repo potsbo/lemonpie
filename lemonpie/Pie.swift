@@ -9,9 +9,28 @@
 import UIKit
 
 class Pie: UIView {
-	
-	var startH = 1.0
-	var endH = 4.0
+	var pieces: [Piece] = []
+	func addPiece(start: Double, end: Double){
+		pieces.append(Piece(frame: frame, start: start, end: end))
+	}
+
+	override func drawRect(rect: CGRect) {
+		for piece in pieces {
+			piece.draw()
+		}
+	}
+
+}
+
+class Piece {
+	var startH: Double
+	var endH: Double
+	var frame: CGRect
+	init(frame: CGRect, start: Double, end: Double){
+		self.frame = frame
+		self.startH = start
+		self.endH = end
+	}
 	
 	var startAngle: CGFloat {
 		get {
@@ -29,8 +48,11 @@ class Pie: UIView {
 			return CGPointMake(self.frame.width/2, self.frame.height/2)
 		}
 	}
-
-	override func drawRect(rect: CGRect) {
+	
+	var startDate = NSDate()
+	var endDate = NSDate()
+	
+	func draw() {
 		
 		let arc = UIBezierPath(arcCenter: arcCenter, radius: self.frame.width*3/8,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
 		arc.addLineToPoint(arcCenter)
@@ -40,5 +62,5 @@ class Pie: UIView {
 		arc.lineWidth = 2
 		arc.stroke()
 	}
-
+	
 }

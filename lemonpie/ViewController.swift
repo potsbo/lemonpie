@@ -18,6 +18,9 @@ class ViewController: UIViewController {
 		let shorter = min(screenWidth, screenHeight)
 		
 		let testDraw = Pie(frame: CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter))
+		testDraw.addPiece(6.5, end: 9)
+		testDraw.addPiece(10, end: 10.5)
+
 		self.view.addSubview(testDraw)
 	}
 
