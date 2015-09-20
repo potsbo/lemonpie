@@ -19,6 +19,11 @@ class ViewController: UIViewController {
 			return min(screenWidth, screenHeight)
 		}
 	}
+	var longer:CGFloat {
+		get {
+			return max(screenWidth, screenHeight)
+		}
+	}
 	var screenWidth: CGFloat {
 		return self.view.bounds.width
 	}
@@ -109,19 +114,10 @@ class ViewController: UIViewController {
 		
 	}
 	
-	func loadPie() {
-		
+	func layout(){
 		pieClock.frame = CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter)
-		pieClock.theme(nil)
-		pieClock.addHourHand(NSDate())
+		print("layout changed")
 		
-		self.view.addSubview(pieClock)
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
-
 		// 背景グラデーションの設定
 		let topColor = UIColor.hexStr("#F7931E")
 		let bottomColor = UIColor.hexStr("#ED1C24")
@@ -130,9 +126,25 @@ class ViewController: UIViewController {
 		let gradientLayer = CAGradientLayer()
 		
 		gradientLayer.colors = gradientColors
-		gradientLayer.frame = self.view.bounds
-
+		gradientLayer.frame  = CGRectMake(0, 0, longer, longer)
+		
 		self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
+	}
+	
+	func loadPie() {
+		
+		layout()
+		pieClock.theme(nil)
+		pieClock.addHourHand(NSDate())
+
+		self.view.addSubview(pieClock)
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		// Do any additional setup after loading the view, typically from a nib.
+
+		
 	
 	}
 
@@ -140,7 +152,33 @@ class ViewController: UIViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+	
+	override func viewDidAppear(animated: Bool) {
+		
+		// 端末の向きがかわったらNotificationを呼ばす設定.
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onOrientationChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+		
+	}
 
+	func onOrientationChange(notification: NSNotification){
+		
+		layout()
+		
+		// 現在のデバイスの向きを取得.
+		let deviceOrientation: UIDeviceOrientation!  = UIDevice.currentDevice().orientation
+		
+		
+		// 向きの判定.
+		if UIDeviceOrientationIsLandscape(deviceOrientation) {
+			//横向きの判定.
+			//向きに従って位置を調整する.
+			
+		} else if UIDeviceOrientationIsPortrait(deviceOrientation){
+			//縦向きの判定.
+			//向きに従って位置を調整する.
+		}
+
+	}
 
 }
 
