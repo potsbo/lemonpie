@@ -12,7 +12,8 @@ import EventKit
 class ViewController: UIViewController {
 	
 	let eventStore = EKEventStore()
-	let pieClock = Pie()
+	let pieClock = Pie(frame: CGRectMake(0,0,0,0))
+	var isTimeTraveling = false
 	var shorter:CGFloat {
 		get {
 			return min(screenWidth, screenHeight)
@@ -30,6 +31,13 @@ class ViewController: UIViewController {
 	}
 	let excludeAllDay = true
 	
+	func initialize(){
+		
+	}
+	
+	func update(){
+		
+	}
 	
 	func checkCalendarAuthorizationStatus() {
 		let status = EKEventStore.authorizationStatusForEntityType(.Event)
@@ -48,9 +56,6 @@ class ViewController: UIViewController {
 			// We need to help them give us permission
 			//needPermissionView.fadeIn()
 			break
-		default:
-			let alert = UIAlertView(title: "Privacy Warning", message: "You have not granted permission for this app to access your Calendar", delegate: nil, cancelButtonTitle: "OK")
-			alert.show()
 		}
 	}
 
@@ -96,6 +101,9 @@ class ViewController: UIViewController {
 				print("Event start date = \(event.startDate)")
 				print("Event end date = \(event.endDate)")
 				pieClock.addPiece(event.startDate, end: event.endDate)
+				let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+				
+				self.view.addSubview(label)
 			}
 		}
 		
@@ -104,7 +112,7 @@ class ViewController: UIViewController {
 	func loadPie() {
 		
 		pieClock.frame = CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter)
-		
+		pieClock.theme(nil)
 		pieClock.addHourHand(NSDate())
 		
 		self.view.addSubview(pieClock)
@@ -113,6 +121,18 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+
+		// 背景グラデーションの設定
+		let topColor = UIColor.hexStr("#F7931E")
+		let bottomColor = UIColor.hexStr("#ED1C24")
+		
+		let gradientColors: [CGColor] = [topColor.CGColor, bottomColor.CGColor]
+		let gradientLayer = CAGradientLayer()
+		
+		gradientLayer.colors = gradientColors
+		gradientLayer.frame = self.view.bounds
+
+		self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
 	
 	}
 

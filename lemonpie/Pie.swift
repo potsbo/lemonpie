@@ -25,17 +25,34 @@ extension NSDate {
 	}
 }
 
+class ClockTheme {
+//TODO
+}
+
 class Pie: UIView {
 	var pieces: [Piece] = []
+	var hourHand: Piece?
+	
 	func addPiece(start: NSDate, end: NSDate){
 		pieces.append(Piece(frame: frame, start: start.hour, end: end.hour))
 	}
 
 	func addHourHand(now: NSDate){
-		pieces.append(Piece(frame: frame, start: now.hour, end: now.hour))
+		hourHand = Piece(frame: frame, start: now.hour, end: now.hour)
+	}
+	
+	func theme(theme: ClockTheme?){
+		if theme != nil {
+		//TODO
+		} else {
+			self.backgroundColor = UIColor.clearColor()
+		}
 	}
 	
 	override func drawRect(rect: CGRect) {
+		if hourHand != nil {
+			hourHand!.draw()
+		}
 		for piece in pieces {
 			piece.draw()
 		}
@@ -69,8 +86,6 @@ class Piece {
 		}
 	}
 	
-	var startDate = NSDate()
-	var endDate = NSDate()
 	
 	func draw() {
 		

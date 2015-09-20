@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB161BAF367700ED8B5E /* hexColor.swift */; settings = {ASSET_TAGS = (); }; };
 		87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */; };
 		87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971021BAC6BBA004D0AA3 /* ViewController.swift */; };
 		87A971061BAC6BBA004D0AA3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87A971041BAC6BBA004D0AA3 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		877DFB161BAF367700ED8B5E /* hexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hexColor.swift; sourceTree = "<group>"; };
 		87A970FD1BAC6BBA004D0AA3 /* lemonpie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lemonpie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87A971021BAC6BBA004D0AA3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */,
 				87A9712E1BAC6DE8004D0AA3 /* Pie.swift */,
 				87A971021BAC6BBA004D0AA3 /* ViewController.swift */,
+				877DFB161BAF367700ED8B5E /* hexColor.swift */,
 				87A971041BAC6BBA004D0AA3 /* Main.storyboard */,
 				87A971071BAC6BBA004D0AA3 /* Assets.xcassets */,
 				87A971091BAC6BBA004D0AA3 /* LaunchScreen.storyboard */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87A9712F1BAC6DE8004D0AA3 /* Pie.swift in Sources */,
+				877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */,
 				87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */,
 				87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */,
 			);
@@ -487,6 +491,7 @@
 				87A971271BAC6BBB004D0AA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87A971281BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpieTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +500,7 @@
 				87A9712A1BAC6BBB004D0AA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87A9712B1BAC6BBB004D0AA3 /* Build configuration list for PBXNativeTarget "lemonpieUITests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +509,7 @@
 				87A9712D1BAC6BBB004D0AA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
