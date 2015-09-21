@@ -11,18 +11,15 @@ import EventKit
 
 class ViewController: UIViewController {
 	
+	var timer: NSTimer!
 	let eventStore = EKEventStore()
 	let pieClock = Pie(frame: CGRectMake(0,0,0,0))
 	var isTimeTraveling = false
 	var shorter:CGFloat {
-		get {
-			return min(screenWidth, screenHeight)
-		}
+		return min(screenWidth, screenHeight)
 	}
 	var longer:CGFloat {
-		get {
-			return max(screenWidth, screenHeight)
-		}
+		return max(screenWidth, screenHeight)
 	}
 	var screenWidth: CGFloat {
 		return self.view.bounds.width
@@ -31,17 +28,20 @@ class ViewController: UIViewController {
 		return self.view.bounds.height
 	}
 	
+	let excludeAllDay = true
+	
 	override func viewWillAppear(animated: Bool) {
 		checkCalendarAuthorizationStatus()
 	}
-	let excludeAllDay = true
+	
 	
 	func initialize(){
 		
 	}
 	
-	func update(){
-		
+	func update(timer : NSTimer){
+		print("timer called")
+		pieClock.adjustHands()
 	}
 	
 	func checkCalendarAuthorizationStatus() {
@@ -76,11 +76,9 @@ class ViewController: UIViewController {
 		/* Instantiate the event store */
 		let eventStore = EKEventStore()
 		
-		/* The event starts from today, right now */
-		let startDate = NSDate()
-		
-		/* The end date will be 1 day from today */
-		let endDate = startDate.dateByAddingTimeInterval(12 * 60 * 60)
+
+		let startDate = pieClock.startDate
+		let endDate = pieClock.endDate
 		
 		/* Create the predicate that we can later pass to the
 		event store in order to fetch the events */
@@ -106,9 +104,6 @@ class ViewController: UIViewController {
 				print("Event start date = \(event.startDate)")
 				print("Event end date = \(event.endDate)")
 				pieClock.addPiece(event)
-				let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-				
-				self.view.addSubview(label)
 			}
 		}
 		
@@ -116,7 +111,6 @@ class ViewController: UIViewController {
 	
 	func layout(){
 		pieClock.frame = CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter)
-		print("layout changed")
 		
 		// 背景グラデーションの設定
 		let topColor = UIColor.hexStr("#F7931E")
@@ -144,7 +138,7 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 
-		
+		 self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update:", userInfo: nil, repeats: true)
 	
 	}
 

@@ -9,60 +9,36 @@
 import UIKit
 import EventKit
 
-extension NSDate {
-	var hour: Double {
-		get {
-			let calendar = NSCalendar.currentCalendar()
-			let components = calendar.components([.Hour, .Minute], fromDate: self)
-			return Double(60 * components.hour + components.minute) / 60.0
-		}
-	}
-	var minute: Double {
-		get {
-			let calendar = NSCalendar.currentCalendar()
-			let components = calendar.components([.Minute, .Second], fromDate: self)
-			return Double(60 * components.minute + components.second) / 60.0
-		}
-	}
-}
-
-class ClockTheme {
-	var lineColor = UIColor.whiteColor()
-	var pieBackColor = UIColor.clearColor()
-	var indexColor = UIColor.whiteColor()
-	var indexBitMask: Int
-	var is24h = true
-	var titleLabelColor = UIColor.whiteColor()
-	func isToShow(index: Int) -> Bool{
-		if (self.indexBitMask & (1 << (index % 12))) >> (index % 12) == 1 {
-			return true
-		}
-		return false
-	}
-	var indexPadding: CGFloat = 21
-	
-	init() {
-		indexBitMask = 0
-		self.indexEvery(1)
-	}
-	
-	func indexEvery(num: Int) {
-		self.indexBitMask = 0
-		for var i = 0; i < 12; i += num {
-			self.indexBitMask += 0b1 << i
-		}
-	}
-}
-
 class Pie: UIView {
 	var pieces: [Piece] = []
 	var hourHand: Piece?
 	var theme = ClockTheme()
+	var isTimeTraveling = false
 	var startDate = NSDate()
+
+	var endDate: NSDate {
+		return startDate.dateByAddingTimeInterval(12 * 60 * 60) // 12hours
+	}
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		self.startDate = NSDate()
+	}
+
+	required init?(coder aDecoder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
+	}
 
 	var radius: CGFloat {
 		get {
 			return self.frame.width*3/8
+		}
+	}
+	
+	func adjustHands(){
+		if !isTimeTraveling {
+			startDate = NSDate()
+			hourHand?.redraw(startDate.hour, end: startDate.hour)
 		}
 	}
 	
@@ -125,6 +101,7 @@ class Piece {
 	var titleLabel: UILabel?
 	var event: EKEvent?
 	var theme = ClockTheme()
+	var arc: UIBezierPath?
 	var radius: CGFloat {
 		get {
 			return self.frame.width*3/8
@@ -178,13 +155,20 @@ class Piece {
 	}
 	
 	func draw() {
-		let arc = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
-		arc.addLineToPoint(arcCenter)
-		arc.closePath()
-		let aColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8)
+		arc = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
+		arc!.addLineToPoint(arcCenter)
+		arc!.closePath()
+		let aColor = theme.titleLabelColor
 		aColor.setStroke()
-		arc.lineWidth = 2
-		arc.stroke()
+		arc!.lineWidth = 2
+		arc!.stroke()
+	}
+	
+	func redraw(start: Double, end: Double) {
+		self.startH = start
+		self.endH = end
+		arc!.removeAllPoints()
+		//self.draw()
 	}
 	
 	func showTitle(){

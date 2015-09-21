@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB161BAF367700ED8B5E /* hexColor.swift */; settings = {ASSET_TAGS = (); }; };
+		877DFB191BB0463C00ED8B5E /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		877DFB1B1BB0467700ED8B5E /* ClockTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB1A1BB0467700ED8B5E /* ClockTheme.swift */; settings = {ASSET_TAGS = (); }; };
 		87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */; };
 		87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971021BAC6BBA004D0AA3 /* ViewController.swift */; };
 		87A971061BAC6BBA004D0AA3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87A971041BAC6BBA004D0AA3 /* Main.storyboard */; };
@@ -37,6 +39,8 @@
 
 /* Begin PBXFileReference section */
 		877DFB161BAF367700ED8B5E /* hexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hexColor.swift; sourceTree = "<group>"; };
+		877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
+		877DFB1A1BB0467700ED8B5E /* ClockTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockTheme.swift; sourceTree = "<group>"; };
 		87A970FD1BAC6BBA004D0AA3 /* lemonpie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lemonpie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87A971021BAC6BBA004D0AA3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +107,9 @@
 			children = (
 				87A971001BAC6BBA004D0AA3 /* AppDelegate.swift */,
 				87A9712E1BAC6DE8004D0AA3 /* Pie.swift */,
+				877DFB1A1BB0467700ED8B5E /* ClockTheme.swift */,
 				87A971021BAC6BBA004D0AA3 /* ViewController.swift */,
+				877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */,
 				877DFB161BAF367700ED8B5E /* hexColor.swift */,
 				87A971041BAC6BBA004D0AA3 /* Main.storyboard */,
 				87A971071BAC6BBA004D0AA3 /* Assets.xcassets */,
@@ -263,6 +269,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				87A9712F1BAC6DE8004D0AA3 /* Pie.swift in Sources */,
+				877DFB191BB0463C00ED8B5E /* NSDateExtension.swift in Sources */,
+				877DFB1B1BB0467700ED8B5E /* ClockTheme.swift in Sources */,
 				877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */,
 				87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */,
 				87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */,
