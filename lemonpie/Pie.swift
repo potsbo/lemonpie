@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 extension NSDate {
 	var hour: Double {
@@ -26,27 +27,67 @@ extension NSDate {
 }
 
 class ClockTheme {
-//TODO
+	var lineColor = UIColor.whiteColor()
+	var pieBackColor = UIColor.clearColor()
+	var indexColor = UIColor.whiteColor()
+	var indexMask = 0b111111111111
+	var indexes: [Int] {
+		get {
+			var nums: [Int] = []
+			for var i = 0; i < 12; i++ {
+				if (self.indexMask & (1 << i)) >> i == 1 {
+					nums.append(i)
+				}
+			}
+			return nums
+		}
+	}
+	var indexPadding: CGFloat = 21
 }
 
 class Pie: UIView {
 	var pieces: [Piece] = []
 	var hourHand: Piece?
+	var theme = ClockTheme()
+	var radius: CGFloat {
+		get {
+			return self.frame.width*3/8
+		}
+	}
 	
-	func addPiece(start: NSDate, end: NSDate){
-		pieces.append(Piece(frame: frame, start: start.hour, end: end.hour))
+	func addPiece(event: EKEvent){
+		pieces.append(Piece(frame: frame, event: event))
 	}
 
 	func addHourHand(now: NSDate){
 		hourHand = Piece(frame: frame, start: now.hour, end: now.hour)
 	}
 	
-	func theme(theme: ClockTheme?){
-		if theme != nil {
-		//TODO
-		} else {
-			self.backgroundColor = UIColor.clearColor()
+	func setTheme(theme: ClockTheme) {
+		self.theme = theme
+	}
+	
+	func applyTheme(){
+		
+		self.backgroundColor = self.theme.pieBackColor
+		
+		for num in theme.indexes {
+			var indexNum = num
+			while indexNum < 1 {
+				indexNum += 12
+			}
+			
+			let index = (indexNum + 9) % 12
+			let x = CGFloat(cos(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
+			let y = CGFloat(sin(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
+			let titleLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+			titleLabel.center = CGPointMake(x + self.frame.width/2, y + self.frame.height/2)
+			titleLabel.textAlignment = NSTextAlignment.Center
+			titleLabel.text = String(indexNum)
+			titleLabel.textColor = self.theme.indexColor
+			self.addSubview(titleLabel)
 		}
+		
 	}
 	
 	override func drawRect(rect: CGRect) {
@@ -55,6 +96,8 @@ class Pie: UIView {
 		}
 		for piece in pieces {
 			piece.draw()
+			piece.showTitle()
+			self.addSubview(piece.titleLabel!)
 		}
 	}
 }
@@ -63,6 +106,20 @@ class Piece {
 	var startH: Double
 	var endH: Double
 	var frame: CGRect
+	var title: String?
+	var titleLabel: UILabel?
+	var radius: CGFloat {
+		get {
+			return self.frame.width*3/8
+		}
+	}
+	
+	init(frame: CGRect, event: EKEvent){
+		self.frame = frame
+		self.startH = event.startDate.hour
+		self.endH = event.endDate.hour
+		self.title = event.title
+	}
 	init(frame: CGRect, start: Double, end: Double){
 		self.frame = frame
 		self.startH = start
@@ -89,13 +146,22 @@ class Piece {
 	
 	func draw() {
 		
-		let arc = UIBezierPath(arcCenter: arcCenter, radius: self.frame.width*3/8,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
+		let arc = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
 		arc.addLineToPoint(arcCenter)
 		arc.closePath()
 		let aColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8)
 		aColor.setStroke()
 		arc.lineWidth = 2
 		arc.stroke()
+	}
+	
+	func showTitle(){
+		if title != nil {
+			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+			titleLabel!.text = title
+			titleLabel!.center = CGPointMake(160, 284)
+			titleLabel!.textAlignment = NSTextAlignment.Center
+		}
 	}
 	
 }

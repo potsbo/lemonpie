@@ -105,7 +105,7 @@ class ViewController: UIViewController {
 				print("Event title = \(event.title)")
 				print("Event start date = \(event.startDate)")
 				print("Event end date = \(event.endDate)")
-				pieClock.addPiece(event.startDate, end: event.endDate)
+				pieClock.addPiece(event)
 				let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
 				
 				self.view.addSubview(label)
@@ -134,7 +134,7 @@ class ViewController: UIViewController {
 	func loadPie() {
 		
 		layout()
-		pieClock.theme(nil)
+		pieClock.applyTheme()
 		pieClock.addHourHand(NSDate())
 
 		self.view.addSubview(pieClock)
