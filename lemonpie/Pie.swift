@@ -12,6 +12,7 @@ import EventKit
 class Pie: UIView {
 	var pieces: [Piece] = []
 	var hourHand: Piece?
+	var secondHand: Piece?
 	var theme = ClockTheme()
 	var isTimeTraveling = false
 	var startDate = NSDate()

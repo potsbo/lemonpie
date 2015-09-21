@@ -12,8 +12,8 @@ extension NSDate {
 	var hour: Double {
 		get {
 			let calendar = NSCalendar.currentCalendar()
-			let components = calendar.components([.Hour, .Minute], fromDate: self)
-			return Double(60 * components.hour + components.minute) / 60.0
+			let components = calendar.components([.Hour, .Minute, .Second], fromDate: self)
+			return Double(3600 * components.hour + 60 * components.minute + components.second) / 3600.0
 		}
 	}
 	var minute: Double {
