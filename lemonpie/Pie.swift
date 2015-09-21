@@ -84,9 +84,11 @@ class Pie: UIView {
 	override func drawRect(rect: CGRect) {
 		if hourHand != nil {
 			hourHand!.draw()
+			self.layer.addSublayer(hourHand!.arc)
 		}
 		for piece in pieces {
 			piece.draw()
+			self.layer.addSublayer(piece.arc)
 			piece.showTitle()
 			self.addSubview(piece.titleLabel!)
 		}
@@ -101,7 +103,7 @@ class Piece {
 	var titleLabel: UILabel?
 	var event: EKEvent?
 	var theme = ClockTheme()
-	var arc: UIBezierPath?
+	var arc = CAShapeLayer()
 	var radius: CGFloat {
 		get {
 			return self.frame.width*3/8
@@ -155,20 +157,22 @@ class Piece {
 	}
 	
 	func draw() {
-		arc = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
-		arc!.addLineToPoint(arcCenter)
-		arc!.closePath()
-		let aColor = theme.titleLabelColor
-		aColor.setStroke()
-		arc!.lineWidth = 2
-		arc!.stroke()
+		
+		arc.lineWidth = 2
+		arc.strokeColor = theme.titleLabelColor.CGColor
+		arc.fillColor = nil
+		
+		let path = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
+		path.addLineToPoint(arcCenter)
+		path.closePath()
+		
+		arc.path = path.CGPath
 	}
 	
 	func redraw(start: Double, end: Double) {
 		self.startH = start
 		self.endH = end
-		arc!.removeAllPoints()
-		//self.draw()
+		self.draw()
 	}
 	
 	func showTitle(){

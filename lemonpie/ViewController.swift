@@ -131,6 +131,7 @@ class ViewController: UIViewController {
 		pieClock.applyTheme()
 		pieClock.addHourHand(NSDate())
 
+		pieClock.fadeIn(.Slow)
 		self.view.addSubview(pieClock)
 	}
 	
