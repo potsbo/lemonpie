@@ -196,15 +196,25 @@ class Piece {
 			let y = CGFloat(sin(midAngle)) * self.radius + self.frame.height/2
 			let midPoint = CGPointMake(x, y)
 			
-			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
-			if midAngle > CGFloat(M_PI_4) {
-				titleLabel!.transform = CGAffineTransformMakeRotation(midAngle+CGFloat(M_PI));
-			} else {
-				titleLabel!.transform = CGAffineTransformMakeRotation(midAngle);
-			}
+			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, theme.indexPadding))
+			
+			
 			titleLabel!.text = title
 			titleLabel!.center = CGPointMake((arcCenter.x + 2*midPoint.x)/3, (arcCenter.y + 2*midPoint.y)/3)
 			titleLabel!.textColor = theme.titleLabelColor
+			
+			if midAngle < CGFloat(M_PI)/6 && midAngle > -CGFloat(M_PI)/6 {
+				titleLabel!.center = CGPointMake(titleLabel!.center.x, titleLabel!.center.y + theme.indexPadding/3)
+			} else if midAngle < CGFloat(7*M_PI)/6 && midAngle > CGFloat(5*M_PI)/6 {
+				
+			} else {
+				if midAngle > CGFloat(M_PI_2) {
+					titleLabel!.transform = CGAffineTransformMakeRotation(midAngle+CGFloat(M_PI));
+				} else {
+					titleLabel!.transform = CGAffineTransformMakeRotation(midAngle);
+				}
+			}
+			
 			titleLabel!.textAlignment = NSTextAlignment.Center
 		}
 	}
