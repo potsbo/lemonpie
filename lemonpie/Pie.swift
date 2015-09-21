@@ -30,25 +30,34 @@ class ClockTheme {
 	var lineColor = UIColor.whiteColor()
 	var pieBackColor = UIColor.clearColor()
 	var indexColor = UIColor.whiteColor()
-	var indexMask = 0b111111111111
-	var indexes: [Int] {
-		get {
-			var nums: [Int] = []
-			for var i = 0; i < 12; i++ {
-				if (self.indexMask & (1 << i)) >> i == 1 {
-					nums.append(i)
-				}
-			}
-			return nums
+	var indexBitMask: Int
+	var is24h = true
+	func isToShow(index: Int) -> Bool{
+		if (self.indexBitMask & (1 << (index % 12))) >> (index % 12) == 1 {
+			return true
 		}
+		return false
 	}
 	var indexPadding: CGFloat = 21
+	
+	init() {
+		indexBitMask = 0
+		self.indexEvery(1)
+	}
+	
+	func indexEvery(num: Int) {
+		self.indexBitMask = 0
+		for var i = 0; i < 12; i += num {
+			self.indexBitMask += 0b1 << i
+		}
+	}
 }
 
 class Pie: UIView {
 	var pieces: [Piece] = []
 	var hourHand: Piece?
 	var theme = ClockTheme()
+
 	var radius: CGFloat {
 		get {
 			return self.frame.width*3/8
@@ -68,24 +77,28 @@ class Pie: UIView {
 	}
 	
 	func applyTheme(){
-		
+
 		self.backgroundColor = self.theme.pieBackColor
-		
-		for num in theme.indexes {
-			var indexNum = num
-			while indexNum < 1 {
-				indexNum += 12
+		let nearest = Int(ceil(NSDate().hour))
+		for var i = nearest; i < nearest + 12; i++ {
+			var indexRaw = i
+			if i > 24 {
+				indexRaw = i % 24
 			}
 			
-			let index = (indexNum + 9) % 12
-			let x = CGFloat(cos(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
-			let y = CGFloat(sin(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
-			let titleLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
-			titleLabel.center = CGPointMake(x + self.frame.width/2, y + self.frame.height/2)
-			titleLabel.textAlignment = NSTextAlignment.Center
-			titleLabel.text = String(indexNum)
-			titleLabel.textColor = self.theme.indexColor
-			self.addSubview(titleLabel)
+			let indexNum = indexRaw
+			
+			if theme.isToShow(indexNum) {
+				let index = (indexNum + 9) % 12
+				let x = CGFloat(cos(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
+				let y = CGFloat(sin(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
+				let indexLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+				indexLabel.center = CGPointMake(x + self.frame.width/2, y + self.frame.height/2)
+				indexLabel.textAlignment = NSTextAlignment.Center
+				indexLabel.text = String(indexNum)
+				indexLabel.textColor = self.theme.indexColor
+				self.addSubview(indexLabel)
+			}
 		}
 		
 	}
