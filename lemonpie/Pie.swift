@@ -32,6 +32,7 @@ class ClockTheme {
 	var indexColor = UIColor.whiteColor()
 	var indexBitMask: Int
 	var is24h = true
+	var titleLabelColor = UIColor.whiteColor()
 	func isToShow(index: Int) -> Bool{
 		if (self.indexBitMask & (1 << (index % 12))) >> (index % 12) == 1 {
 			return true
@@ -57,6 +58,7 @@ class Pie: UIView {
 	var pieces: [Piece] = []
 	var hourHand: Piece?
 	var theme = ClockTheme()
+	var startDate = NSDate()
 
 	var radius: CGFloat {
 		get {
@@ -121,6 +123,8 @@ class Piece {
 	var frame: CGRect
 	var title: String?
 	var titleLabel: UILabel?
+	var event: EKEvent?
+	var theme = ClockTheme()
 	var radius: CGFloat {
 		get {
 			return self.frame.width*3/8
@@ -132,6 +136,7 @@ class Piece {
 		self.startH = event.startDate.hour
 		self.endH = event.endDate.hour
 		self.title = event.title
+		self.event = event
 	}
 	init(frame: CGRect, start: Double, end: Double){
 		self.frame = frame
@@ -141,12 +146,12 @@ class Piece {
 	
 	var startAngle: CGFloat {
 		get {
-			return CGFloat(-M_PI/2 + M_PI * startH/6)
+			return getAngle(startH)
 		}
 	}
 	var endAngle: CGFloat {
 		get {
-			return CGFloat(-M_PI/2 + M_PI * endH/6)
+			return getAngle(endH)
 		}
 	}
 	
@@ -156,9 +161,23 @@ class Piece {
 		}
 	}
 	
+	var midH: Double {
+		get {
+			return (startH + endH)/2
+		}
+	}
+	
+	var midAngle: CGFloat {
+		get {
+			return getAngle(midH)
+		}
+	}
+	
+	func getAngle(hour: Double) -> CGFloat {
+		return CGFloat(-M_PI/2 + M_PI * hour/6)
+	}
 	
 	func draw() {
-		
 		let arc = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
 		arc.addLineToPoint(arcCenter)
 		arc.closePath()
@@ -170,9 +189,22 @@ class Piece {
 	
 	func showTitle(){
 		if title != nil {
+			print(midAngle)
+			print(cos(midAngle))
+			print(sin(midAngle))
+			let x = CGFloat(cos(midAngle)) * self.radius + self.frame.width/2
+			let y = CGFloat(sin(midAngle)) * self.radius + self.frame.height/2
+			let midPoint = CGPointMake(x, y)
+			
 			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+			if midAngle > CGFloat(M_PI_4) {
+				titleLabel!.transform = CGAffineTransformMakeRotation(midAngle+CGFloat(M_PI));
+			} else {
+				titleLabel!.transform = CGAffineTransformMakeRotation(midAngle);
+			}
 			titleLabel!.text = title
-			titleLabel!.center = CGPointMake(160, 284)
+			titleLabel!.center = CGPointMake((arcCenter.x + 2*midPoint.x)/3, (arcCenter.y + 2*midPoint.y)/3)
+			titleLabel!.textColor = theme.titleLabelColor
 			titleLabel!.textAlignment = NSTextAlignment.Center
 		}
 	}
