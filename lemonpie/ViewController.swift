@@ -13,8 +13,12 @@ class ViewController: UIViewController, PieDelegate {
 	
 	var timer: NSTimer!
 	let eventStore = EKEventStore()
+	
+	// views
 	let pieClock = Pie(frame: CGRectMake(0,0,0,0))
-	var isTimeTraveling = false
+	var timeDifferenceView = TimeDifferenceView(frame: CGRectMake(0,0,0,0))
+	
+	// window size
 	var shorter:CGFloat {
 		return min(screenWidth, screenHeight)
 	}
@@ -28,22 +32,37 @@ class ViewController: UIViewController, PieDelegate {
 		return self.view.bounds.height
 	}
 	
+	// time management
+	var clockTime = NSDate() {
+		didSet {
+			pieClock.startDate = clockTime
+		}
+	}
+	var timeDiff: NSTimeInterval {
+		if !isTimeTraveling {
+			return 0
+		}
+		return clockTime.timeIntervalSinceNow
+	}
+	var isTimeTraveling = false
+	
+	// settings
 	let excludeAllDay = true
 	
 	override func viewWillAppear(animated: Bool) {
 		checkCalendarAuthorizationStatus()
 	}
 	
-	
 	func initialize(){
 		
 	}
 	
 	func update(timer : NSTimer){
-		//
-		//print("timer called")
-		pieClock.updateClock()
-		pieClock.adjustHands()
+		if !isTimeTraveling {
+			clockTime = NSDate()
+		} else {
+			
+		}
 	}
 	
 	func checkCalendarAuthorizationStatus() {
@@ -55,9 +74,8 @@ class ViewController: UIViewController, PieDelegate {
 			requestAccessToCalendar()
 		case EKAuthorizationStatus.Authorized:
 			// Things are in line with being able to show the calendars in the table view
-			loadPie()
+			loadApp()
 			readEvents()
-//			refreshTableView()
 			break
 		case EKAuthorizationStatus.Restricted, EKAuthorizationStatus.Denied:
 			// We need to help them give us permission
@@ -69,12 +87,13 @@ class ViewController: UIViewController, PieDelegate {
 	func requestAccessToCalendar() {
 		eventStore.requestAccessToEntityType(.Event, completion: handler)
 	}
+	
 	func handler(granted: Bool, error: NSError?) {
 	// put your handler code here
 		if granted == true {
 			// Ensure that UI refreshes happen back on the main thread!
 			dispatch_async(dispatch_get_main_queue(), {
-				self.loadPie()
+				self.loadApp()
 				self.readEvents()
 			})
 		} else {
@@ -98,7 +117,7 @@ class ViewController: UIViewController, PieDelegate {
 		event store in order to fetch the events */
 		let searchPredicate = eventStore.predicateForEventsWithStartDate(
 			startDate,
-			endDate: endDate, calendars: nil)
+			endDate: endDate.dateByAddingTimeInterval(60*60*24*7), calendars: nil)
 		
 		/* Fetch all the events that fall between
 		the starting and the ending dates */
@@ -124,13 +143,27 @@ class ViewController: UIViewController, PieDelegate {
 	}
 	
 	func layout(){
+		// 現在のデバイスの向きを取得.
+		let deviceOrientation: UIDeviceOrientation!  = UIDevice.currentDevice().orientation
+		timeDifferenceView.frame = CGRectMake((2*screenWidth - shorter) / 2, 0, screenWidth / 2, (screenHeight - shorter)/2)
+
+		print("current orientation \(deviceOrientation)")
+		// 向きの判定.
+
+		if UIDeviceOrientationIsLandscape(deviceOrientation) {
+			timeDifferenceView.frame = CGRectMake((screenWidth - shorter )/2 + shorter, 0, (screenWidth - shorter)/2, screenHeight/2)
+			
+		} else if UIDeviceOrientationIsPortrait(deviceOrientation){
+			timeDifferenceView.frame = CGRectMake((2*screenWidth - shorter) / 2, 0, screenWidth / 2, (screenHeight - shorter)/2)
+		}
+		
+		
 		pieClock.frame = CGRectMake((screenWidth - shorter)/2, (screenHeight - shorter)/2, shorter, shorter)
 		
 		// 背景グラデーションの設定
 		let topColor = UIColor.hexStr("#F7931E")
 		let bottomColor = UIColor.hexStr("#ED1C24")
-		
-		let gradientColors: [CGColor] = [topColor.CGColor, bottomColor.CGColor]
+		let gradientColors = [topColor.CGColor, bottomColor.CGColor]
 		let gradientLayer = CAGradientLayer()
 		
 		gradientLayer.colors = gradientColors
@@ -140,16 +173,34 @@ class ViewController: UIViewController, PieDelegate {
 	}
 	
 	func startTimeTravel() {
-		print("Time traveling")
+		if !self.isTimeTraveling {
+			print("Start time traveling")
+			self.isTimeTraveling = true
+			timeDifferenceView.startTimeTravel()
+		}
 	}
 	
 	func endTimeTravel() {
-		print("end of time travel")
+		if self.isTimeTraveling {
+			print("end of time travel")
+			self.isTimeTraveling = false
+			timeDifferenceView.endTimeTravel()
+			timeDifferenceDidChange()
+			clockTime = NSDate()
+		}
+		
 	}
 	
-	func loadPie() {
+	func timeDifferenceDidChange() {
+		timeDifferenceView.timeLabel.text = timeDiff.str
+	}
+	
+	func loadApp() {
 		
 		layout()
+		timeDifferenceView.hidden = true
+		self.view.addSubview(timeDifferenceView)
+		
 		pieClock.delegate = self
 		pieClock.applyTheme()
 		pieClock.addHourHand(NSDate())
@@ -162,6 +213,26 @@ class ViewController: UIViewController, PieDelegate {
 		// Do any additional setup after loading the view, typically from a nib.
 
 		 self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update:", userInfo: nil, repeats: true)
+		
+		
+		let test = UILongPressGestureRecognizer(target: self, action: "doubleTap:")
+		self.view.addGestureRecognizer(test)
+
+		
+		// double tap to back to the current
+		let doubleTapGesture = UITapGestureRecognizer(target: self, action:"doubleTap:")
+		doubleTapGesture.numberOfTapsRequired = 2
+		self.view.addGestureRecognizer(doubleTapGesture)
+		
+		let oneHandRotation = XMCircleGestureRecognizer(midPoint: self.view.center, target: self, action: "rotateGesture:")
+		self.view.addGestureRecognizer(oneHandRotation)
+
+		
+	}
+	
+	func doubleTap(gesture: UITapGestureRecognizer) -> Void {
+		print("double tapped")
+		self.endTimeTravel()
 	
 	}
 
@@ -181,20 +252,16 @@ class ViewController: UIViewController, PieDelegate {
 		
 		layout()
 		
-		// 現在のデバイスの向きを取得.
-		let deviceOrientation: UIDeviceOrientation!  = UIDevice.currentDevice().orientation
-		
-		
-		// 向きの判定.
-		if UIDeviceOrientationIsLandscape(deviceOrientation) {
-			//横向きの判定.
-			//向きに従って位置を調整する.
-			
-		} else if UIDeviceOrientationIsPortrait(deviceOrientation){
-			//縦向きの判定.
-			//向きに従って位置を調整する.
+	}
+	
+	func rotateGesture(recognizer:XMCircleGestureRecognizer) {
+		if let rotation = recognizer.rotation {
+			print("setting new clockTime")
+			self.startTimeTravel()
+			clockTime = clockTime.dateByAddingTimeInterval(Double(rotation.degrees * 120 ))
+			self.timeDifferenceDidChange()
 		}
-
+		
 	}
 	
 	override func prefersStatusBarHidden() -> Bool {

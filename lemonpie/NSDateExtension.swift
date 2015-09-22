@@ -30,4 +30,73 @@ extension NSDate {
 			return Double(components.second)
 		}
 	}
+
+	func isGreaterThanDate(dateToCompare : NSDate) -> Bool {
+		//Declare Variables
+		var isGreater = false
+		
+		//Compare Values
+		if self.compare(dateToCompare) == NSComparisonResult.OrderedDescending
+		{
+			isGreater = true
+		}
+		
+		//Return Result
+		return isGreater
+	}
+	
+	
+	func isLessThanDate(dateToCompare : NSDate) -> Bool {
+		//Declare Variables
+		var isLess = false
+		
+		//Compare Values
+		if self.compare(dateToCompare) == NSComparisonResult.OrderedAscending
+		{
+			isLess = true
+		}
+		
+		//Return Result
+		return isLess
+	}
+	
+	
+	func addDays(daysToAdd : Int) -> NSDate	{
+		let secondsInDays : NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
+		let dateWithDaysAdded : NSDate = self.dateByAddingTimeInterval(secondsInDays)
+		
+		//Return Result
+		return dateWithDaysAdded
+	}
+	
+	
+	func addHours(hoursToAdd : Int) -> NSDate {
+		let secondsInHours : NSTimeInterval = Double(hoursToAdd) * 60 * 60
+		let dateWithHoursAdded : NSDate = self.dateByAddingTimeInterval(secondsInHours)
+		
+		//Return Result
+		return dateWithHoursAdded
+	}
+}
+
+extension NSTimeInterval {
+	var hour: Int {
+		get {
+			return Int(self / 3600)
+		}
+	}
+	var minute: Int {
+		get {
+			return (Int(self) % 3600) / 60
+		}
+	}
+	var str: String {
+		get {
+			var flag = "+"
+			if self < 0 {
+				flag = "-"
+			}
+			return flag + String(abs(self.hour)) +  ":" + String(abs(self.minute))
+		}
+	}
 }

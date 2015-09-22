@@ -9,33 +9,25 @@
 import UIKit
 import EventKit
 
+private let π = CGFloat(M_PI)
+
 protocol PieDelegate {
 	func startTimeTravel()
 	func endTimeTravel()
+	func timeDifferenceDidChange()
 }
 
 class Pie: UIView {
 	var pieces: [Piece] = []
-	var hourHand: Piece?
+	var hourHand: ClockHand!
 	var secondHand: Piece?
 	var theme = ClockTheme()
 	var viewController = UIViewController()
 	var delegate: PieDelegate!
-	var isTimeTraveling = false {
-		didSet {
-			if isTimeTraveling != oldValue{
-				if isTimeTraveling {
-					delegate.startTimeTravel()
-				} else {
-					delegate.endTimeTravel()
-					startDate = NSDate()
-				}
-			}
-		}
-	}
 	var startDate = NSDate() {
 		didSet {
 			adjustHands()
+			adjustPiecesInside()
 			putIndexes()
 		}
 	}
@@ -49,29 +41,6 @@ class Pie: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.startDate = NSDate()
-		
-		// double tap to back to the current
-		self.userInteractionEnabled = true
-		let doubleTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self
-			, action:"doubleTap:")
-		doubleTapGesture.numberOfTapsRequired = 2
-		self.addGestureRecognizer(doubleTapGesture)
-		
-		// experimental gesture
-		let swipeLeftGesture: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self
-			, action:"respondsToLeftSwipe:")
-		 swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Left
-		self.addGestureRecognizer(swipeLeftGesture)
-	}
-	
-	func doubleTap(gesture: UITapGestureRecognizer) -> Void {
-		backToCurrent()
-	}
-	
-	func respondsToLeftSwipe(gesture: UIGestureRecognizer){
-		isTimeTraveling = true
-		startDate = startDate.dateByAddingTimeInterval(60*60)
-		print(startDate.hour)
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -84,33 +53,23 @@ class Pie: UIView {
 		}
 	}
 	
-	func updateClock() {
-		if !isTimeTraveling {
-			startDate = NSDate()
-		}
-	}
-	
 	func adjustHands(){
-		if !isTimeTraveling {
-			hourHand?.redraw(startDate.hour, end: startDate.hour)
-		} else {
-			hourHand?.redraw(startDate.hour, end: startDate.hour)
-		}
+		hourHand?.time = startDate
+		hourHand?.draw()
 	}
 	
-	func backToCurrent() {
-		isTimeTraveling = false
-		startDate = NSDate()
-		print("back to current")
-		
+	func adjustPiecesInside(){
+		for piece in pieces {
+			piece.redraw()
+		}
 	}
 	
 	func addPiece(event: EKEvent){
-		pieces.append(Piece(frame: frame, event: event))
+		pieces.append(Piece(frame: frame, event: event, superview: self))
 	}
 
 	func addHourHand(now: NSDate){
-		hourHand = Piece(frame: frame, start: now.hour, end: now.hour)
+		hourHand = ClockHand(type: .hour, time: now, superview: self)
 	}
 	
 	func setTheme(theme: ClockTheme) {
@@ -141,8 +100,8 @@ class Pie: UIView {
 			
 			if theme.isToShow(indexNum) {
 				let index = (indexNum + 9) % 12
-				let x = CGFloat(cos(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
-				let y = CGFloat(sin(M_PI * Double(index) / 6)) * (radius + self.theme.indexPadding)
+				let x = CGFloat(cos(π * CGFloat(index) / 6)) * (radius + self.theme.indexPadding)
+				let y = CGFloat(sin(π * CGFloat(index) / 6)) * (radius + self.theme.indexPadding)
 				let indexLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
 				indexLabel.center = CGPointMake(x + self.frame.width/2, y + self.frame.height/2)
 				indexLabel.textAlignment = NSTextAlignment.Center
@@ -169,8 +128,19 @@ class Pie: UIView {
 }
 
 class Piece {
-	var startH: Double
-	var endH: Double
+	
+	var superview: Pie
+	
+	var startDate: NSDate
+	var endDate: NSDate
+	
+	var isToShow: Bool {
+		return endDate.isGreaterThanDate(superview.startDate) &&
+			startDate.isLessThanDate(superview.endDate)
+	}
+	
+
+	
 	var frame: CGRect
 	var title: String?
 	var titleLabel: UILabel?
@@ -183,27 +153,39 @@ class Piece {
 		}
 	}
 	
-	init(frame: CGRect, event: EKEvent){
+	init(frame: CGRect, event: EKEvent, superview: Pie){
 		self.frame = frame
-		self.startH = event.startDate.hour
-		self.endH = event.endDate.hour
+		self.startDate = event.startDate
+		self.endDate = event.endDate
 		self.title = event.title
 		self.event = event
+		self.superview = superview
 	}
-	init(frame: CGRect, start: Double, end: Double){
-		self.frame = frame
-		self.startH = start
-		self.endH = end
+
+	var drawStartDate: NSDate {
+		if superview.startDate.isGreaterThanDate(self.startDate) {
+			return superview.startDate
+		}
+		return self.startDate
+	}
+	
+	var drawEndDate: NSDate {
+		get {
+			if superview.endDate.isLessThanDate(self.endDate) {
+				return superview.endDate
+			}
+			return self.endDate
+		}
 	}
 	
 	var startAngle: CGFloat {
 		get {
-			return getAngle(startH)
+			return getAngle(drawStartDate.hour)
 		}
 	}
 	var endAngle: CGFloat {
 		get {
-			return getAngle(endH)
+			return getAngle(drawEndDate.hour)
 		}
 	}
 	
@@ -215,7 +197,7 @@ class Piece {
 	
 	var midH: Double {
 		get {
-			return (startH + endH)/2
+			return (drawStartDate.hour + drawEndDate.hour)/2
 		}
 	}
 	
@@ -226,56 +208,72 @@ class Piece {
 	}
 	
 	func getAngle(hour: Double) -> CGFloat {
-		return CGFloat(-M_PI/2 + M_PI * hour/6)
+		return -π/2 + π * CGFloat(hour/6)
 	}
 	
 	func draw() {
-		arc.lineWidth = 2
-		arc.strokeColor = theme.titleLabelColor.CGColor
-		arc.fillColor = nil
+		if isToShow {
+			arc.lineWidth = 2
+			arc.strokeColor = theme.titleLabelColor.CGColor
+			arc.fillColor = nil
+			
+			let path = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
+			path.addLineToPoint(arcCenter)
+			path.closePath()
+			
+			arc.path = path.CGPath
+		}
 		
-		let path = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
-		path.addLineToPoint(arcCenter)
-		path.closePath()
-		
-		arc.path = path.CGPath
 	}
 	
-	func redraw(start: Double, end: Double) {
-		self.startH = start
-		self.endH = end
-		self.draw()
+	func redraw() {
+		arc.path = nil
+		self.adjustTitle()
+		if isToShow {
+			self.draw()
+		}
+	}
+	
+	func adjustTitle() {
+		if isToShow {
+			let x = cos(midAngle) * self.radius + self.frame.width/2
+			let y = sin(midAngle) * self.radius + self.frame.height/2
+			let midPoint = CGPointMake(x, y)
+			
+			titleLabel?.center = CGPointMake((arcCenter.x + 2*midPoint.x)/3, (arcCenter.y + 2*midPoint.y)/3)
+			titleLabel?.textColor = theme.titleLabelColor
+			
+			if -π/6 < midAngle && midAngle < 0 {
+				titleLabel?.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! + theme.indexPadding/3)
+			} else if 0 < midAngle && midAngle < π/6 {
+				titleLabel!.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! - theme.indexPadding/3)
+			} else if midAngle < 7*π/6 && midAngle > 5*π/6 {
+				
+			} else {
+				if midAngle > π/2 {
+					titleLabel?.transform = CGAffineTransformMakeRotation(midAngle+π);
+				} else {
+					titleLabel?.transform = CGAffineTransformMakeRotation(midAngle);
+				}
+			}
+			
+			titleLabel?.textAlignment = NSTextAlignment.Center
+			titleLabel?.hidden = false
+		} else {
+			titleLabel?.hidden = true
+		}
+		
+	
 	}
 	
 	func showTitle(){
 		if title != nil {
-			print(midAngle)
-			print(cos(midAngle))
-			print(sin(midAngle))
-			let x = CGFloat(cos(midAngle)) * self.radius + self.frame.width/2
-			let y = CGFloat(sin(midAngle)) * self.radius + self.frame.height/2
-			let midPoint = CGPointMake(x, y)
-			
+			titleLabel = nil
 			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, theme.indexPadding))
-			
-			
 			titleLabel!.text = title
-			titleLabel!.center = CGPointMake((arcCenter.x + 2*midPoint.x)/3, (arcCenter.y + 2*midPoint.y)/3)
-			titleLabel!.textColor = theme.titleLabelColor
+			titleLabel!.hidden = false
 			
-			if midAngle < CGFloat(M_PI)/6 && midAngle > -CGFloat(M_PI)/6 {
-				titleLabel!.center = CGPointMake(titleLabel!.center.x, titleLabel!.center.y + theme.indexPadding/3)
-			} else if midAngle < CGFloat(7*M_PI)/6 && midAngle > CGFloat(5*M_PI)/6 {
-				
-			} else {
-				if midAngle > CGFloat(M_PI_2) {
-					titleLabel!.transform = CGAffineTransformMakeRotation(midAngle+CGFloat(M_PI));
-				} else {
-					titleLabel!.transform = CGAffineTransformMakeRotation(midAngle);
-				}
-			}
-			
-			titleLabel!.textAlignment = NSTextAlignment.Center
+			adjustTitle()
 		}
 	}
 	

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8702EB531BB0D60100D327C3 /* TimeDifferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702EB521BB0D60100D327C3 /* TimeDifferenceView.swift */; settings = {ASSET_TAGS = (); }; };
 		877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB161BAF367700ED8B5E /* hexColor.swift */; settings = {ASSET_TAGS = (); }; };
 		877DFB191BB0463C00ED8B5E /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */; settings = {ASSET_TAGS = (); }; };
 		877DFB1B1BB0467700ED8B5E /* ClockTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB1A1BB0467700ED8B5E /* ClockTheme.swift */; settings = {ASSET_TAGS = (); }; };
@@ -18,6 +19,8 @@
 		87A971161BAC6BBB004D0AA3 /* lemonpieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971151BAC6BBB004D0AA3 /* lemonpieTests.swift */; };
 		87A971211BAC6BBB004D0AA3 /* lemonpieUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A971201BAC6BBB004D0AA3 /* lemonpieUITests.swift */; };
 		87A9712F1BAC6DE8004D0AA3 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A9712E1BAC6DE8004D0AA3 /* Pie.swift */; settings = {ASSET_TAGS = (); }; };
+		87C019881BB1853500F118B2 /* XMCircleGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C019871BB1853500F118B2 /* XMCircleGestureRecognizer.swift */; settings = {ASSET_TAGS = (); }; };
+		87C4B19A1BB1C6160061E2EF /* ClockHand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C4B1991BB1C6160061E2EF /* ClockHand.swift */; settings = {ASSET_TAGS = (); }; };
 		87D343891BB05DE50018BCD6 /* fade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D343881BB05DE50018BCD6 /* fade.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -39,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8702EB521BB0D60100D327C3 /* TimeDifferenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeDifferenceView.swift; sourceTree = "<group>"; };
 		877DFB161BAF367700ED8B5E /* hexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hexColor.swift; sourceTree = "<group>"; };
 		877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		877DFB1A1BB0467700ED8B5E /* ClockTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockTheme.swift; sourceTree = "<group>"; };
@@ -56,6 +60,8 @@
 		87A971201BAC6BBB004D0AA3 /* lemonpieUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lemonpieUITests.swift; sourceTree = "<group>"; };
 		87A971221BAC6BBB004D0AA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87A9712E1BAC6DE8004D0AA3 /* Pie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
+		87C019871BB1853500F118B2 /* XMCircleGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMCircleGestureRecognizer.swift; sourceTree = "<group>"; };
+		87C4B1991BB1C6160061E2EF /* ClockHand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockHand.swift; sourceTree = "<group>"; };
 		87D343881BB05DE50018BCD6 /* fade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = fade.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,8 +117,11 @@
 				87A9712E1BAC6DE8004D0AA3 /* Pie.swift */,
 				877DFB1A1BB0467700ED8B5E /* ClockTheme.swift */,
 				87A971021BAC6BBA004D0AA3 /* ViewController.swift */,
+				87C019871BB1853500F118B2 /* XMCircleGestureRecognizer.swift */,
 				87D343881BB05DE50018BCD6 /* fade.swift */,
+				8702EB521BB0D60100D327C3 /* TimeDifferenceView.swift */,
 				877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */,
+				87C4B1991BB1C6160061E2EF /* ClockHand.swift */,
 				877DFB161BAF367700ED8B5E /* hexColor.swift */,
 				87A971041BAC6BBA004D0AA3 /* Main.storyboard */,
 				87A971071BAC6BBA004D0AA3 /* Assets.xcassets */,
@@ -271,11 +280,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8702EB531BB0D60100D327C3 /* TimeDifferenceView.swift in Sources */,
 				87A9712F1BAC6DE8004D0AA3 /* Pie.swift in Sources */,
 				877DFB191BB0463C00ED8B5E /* NSDateExtension.swift in Sources */,
 				87D343891BB05DE50018BCD6 /* fade.swift in Sources */,
 				877DFB1B1BB0467700ED8B5E /* ClockTheme.swift in Sources */,
+				87C019881BB1853500F118B2 /* XMCircleGestureRecognizer.swift in Sources */,
 				877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */,
+				87C4B19A1BB1C6160061E2EF /* ClockHand.swift in Sources */,
 				87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */,
 				87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */,
 			);
