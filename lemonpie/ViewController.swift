@@ -71,6 +71,18 @@ class ViewController: UIViewController, PieDelegate {
 	}
 	func handler(granted: Bool, error: NSError?) {
 	// put your handler code here
+		if granted == true {
+			// Ensure that UI refreshes happen back on the main thread!
+			dispatch_async(dispatch_get_main_queue(), {
+				self.loadPie()
+				self.readEvents()
+			})
+		} else {
+			// Ensure that UI refreshes happen back on the main thread!
+			dispatch_async(dispatch_get_main_queue(), {
+				//self.needPermissionView.fadeIn()
+			})
+		}
 	}
 	
 	func readEvents(){
