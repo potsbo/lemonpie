@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, PieDelegate {
 	
 	var timer: NSTimer!
 	let eventStore = EKEventStore()
@@ -40,7 +40,9 @@ class ViewController: UIViewController {
 	}
 	
 	func update(timer : NSTimer){
-		print("timer called")
+		//
+		//print("timer called")
+		pieClock.updateClock()
 		pieClock.adjustHands()
 	}
 	
@@ -125,12 +127,20 @@ class ViewController: UIViewController {
 		self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
 	}
 	
+	func startTimeTravel() {
+		print("Time traveling")
+	}
+	
+	func endTimeTravel() {
+		print("end of time travel")
+	}
+	
 	func loadPie() {
 		
 		layout()
+		pieClock.delegate = self
 		pieClock.applyTheme()
 		pieClock.addHourHand(NSDate())
-
 		pieClock.fadeIn(.Slow)
 		self.view.addSubview(pieClock)
 	}

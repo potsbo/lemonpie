@@ -9,13 +9,38 @@
 import UIKit
 import EventKit
 
+protocol PieDelegate {
+	func startTimeTravel()
+	func endTimeTravel()
+}
+
 class Pie: UIView {
 	var pieces: [Piece] = []
 	var hourHand: Piece?
 	var secondHand: Piece?
 	var theme = ClockTheme()
-	var isTimeTraveling = false
-	var startDate = NSDate()
+	var viewController = UIViewController()
+	var delegate: PieDelegate!
+	var isTimeTraveling = false {
+		didSet {
+			if isTimeTraveling != oldValue{
+				if isTimeTraveling {
+					delegate.startTimeTravel()
+				} else {
+					delegate.endTimeTravel()
+					startDate = NSDate()
+				}
+			}
+		}
+	}
+	var startDate = NSDate() {
+		didSet {
+			adjustHands()
+			putIndexes()
+		}
+	}
+	
+	var indexLabels: [UILabel] = []
 
 	var endDate: NSDate {
 		return startDate.dateByAddingTimeInterval(12 * 60 * 60) // 12hours
@@ -24,6 +49,29 @@ class Pie: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.startDate = NSDate()
+		
+		// double tap to back to the current
+		self.userInteractionEnabled = true
+		let doubleTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self
+			, action:"doubleTap:")
+		doubleTapGesture.numberOfTapsRequired = 2
+		self.addGestureRecognizer(doubleTapGesture)
+		
+		// experimental gesture
+		let swipeLeftGesture: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self
+			, action:"respondsToLeftSwipe:")
+		 swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Left
+		self.addGestureRecognizer(swipeLeftGesture)
+	}
+	
+	func doubleTap(gesture: UITapGestureRecognizer) -> Void {
+		backToCurrent()
+	}
+	
+	func respondsToLeftSwipe(gesture: UIGestureRecognizer){
+		isTimeTraveling = true
+		startDate = startDate.dateByAddingTimeInterval(60*60)
+		print(startDate.hour)
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -36,11 +84,25 @@ class Pie: UIView {
 		}
 	}
 	
-	func adjustHands(){
+	func updateClock() {
 		if !isTimeTraveling {
 			startDate = NSDate()
+		}
+	}
+	
+	func adjustHands(){
+		if !isTimeTraveling {
+			hourHand?.redraw(startDate.hour, end: startDate.hour)
+		} else {
 			hourHand?.redraw(startDate.hour, end: startDate.hour)
 		}
+	}
+	
+	func backToCurrent() {
+		isTimeTraveling = false
+		startDate = NSDate()
+		print("back to current")
+		
 	}
 	
 	func addPiece(event: EKEvent){
@@ -58,7 +120,17 @@ class Pie: UIView {
 	func applyTheme(){
 
 		self.backgroundColor = self.theme.pieBackColor
-		let nearest = Int(ceil(NSDate().hour))
+		putIndexes()
+		
+	}
+	
+	func putIndexes() {
+		for label in indexLabels {
+			label.removeFromSuperview()
+		}
+		indexLabels = []
+		
+		let nearest = Int(ceil(startDate.hour))
 		for var i = nearest; i < nearest + 12; i++ {
 			var indexRaw = i
 			if i > 24 {
@@ -77,9 +149,9 @@ class Pie: UIView {
 				indexLabel.text = String(indexNum)
 				indexLabel.textColor = self.theme.indexColor
 				self.addSubview(indexLabel)
+				self.indexLabels.append(indexLabel)
 			}
 		}
-		
 	}
 	
 	override func drawRect(rect: CGRect) {
@@ -158,7 +230,6 @@ class Piece {
 	}
 	
 	func draw() {
-		
 		arc.lineWidth = 2
 		arc.strokeColor = theme.titleLabelColor.CGColor
 		arc.fillColor = nil
