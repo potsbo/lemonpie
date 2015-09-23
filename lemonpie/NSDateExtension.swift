@@ -80,9 +80,14 @@ extension NSDate {
 }
 
 extension NSTimeInterval {
+	var days: Int {
+		get {
+			return Int(self) / (3600 * 24)
+		}
+	}
 	var hour: Int {
 		get {
-			return Int(self / 3600)
+			return (Int(self) % (3600 * 24)) / 3600
 		}
 	}
 	var minute: Int {
@@ -96,7 +101,12 @@ extension NSTimeInterval {
 			if self < 0 {
 				flag = "-"
 			}
-			return flag + String(abs(self.hour)) +  ":" + String(abs(self.minute))
+			
+			var dayStr = ""
+			if self.days != 0 {
+				dayStr = String(days) + " days "
+			}
+			return flag + dayStr + String(abs(self.hour)) +  ":" + String(format: "%02d", abs(self.minute))
 		}
 	}
 }

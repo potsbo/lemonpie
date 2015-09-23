@@ -19,10 +19,10 @@ class ViewController: UIViewController, PieDelegate {
 	var timeDifferenceView = TimeDifferenceView(frame: CGRectMake(0,0,0,0))
 	
 	// window size
-	var shorter:CGFloat {
+	var shorter: CGFloat {
 		return min(screenWidth, screenHeight)
 	}
-	var longer:CGFloat {
+	var longer: CGFloat {
 		return max(screenWidth, screenHeight)
 	}
 	var screenWidth: CGFloat {
@@ -49,12 +49,31 @@ class ViewController: UIViewController, PieDelegate {
 	// settings
 	let excludeAllDay = true
 	
+	// view loading
 	override func viewWillAppear(animated: Bool) {
 		checkCalendarAuthorizationStatus()
 	}
-	
-	func initialize(){
+	override func viewDidAppear(animated: Bool) {
 		
+		// 端末の向きがかわったらNotificationを呼ばす設定.
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onOrientationChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+		
+	}
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		// Do any additional setup after loading the view, typically from a nib.
+		
+		self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update:", userInfo: nil, repeats: true)
+		
+		// TODO: this gesture to be changed to double tap
+		let test = UILongPressGestureRecognizer(target: self, action: "doubleTap:")
+		self.view.addGestureRecognizer(test)
+		
+		// double tap to back to the current TODO: this doesn't work, maybe because of XMCircleGestureRecognizer
+		let doubleTapGesture = UITapGestureRecognizer(target: self, action:"doubleTap:")
+		doubleTapGesture.numberOfTapsRequired = 2
+		self.view.addGestureRecognizer(doubleTapGesture)
+				
 	}
 	
 	func update(timer : NSTimer){
@@ -65,6 +84,8 @@ class ViewController: UIViewController, PieDelegate {
 		}
 	}
 	
+	
+	// Calendar
 	func checkCalendarAuthorizationStatus() {
 		let status = EKEventStore.authorizationStatusForEntityType(.Event)
 		
@@ -142,19 +163,16 @@ class ViewController: UIViewController, PieDelegate {
 		
 	}
 	
+	
+	// view controll
 	func layout(){
 		// 現在のデバイスの向きを取得.
-		let deviceOrientation: UIDeviceOrientation!  = UIDevice.currentDevice().orientation
-		timeDifferenceView.frame = CGRectMake((2*screenWidth - shorter) / 2, 0, screenWidth / 2, (screenHeight - shorter)/2)
-
-		print("current orientation \(deviceOrientation)")
-		// 向きの判定.
-
-		if UIDeviceOrientationIsLandscape(deviceOrientation) {
-			timeDifferenceView.frame = CGRectMake((screenWidth - shorter )/2 + shorter, 0, (screenWidth - shorter)/2, screenHeight/2)
-			
-		} else if UIDeviceOrientationIsPortrait(deviceOrientation){
+		let isPortrait = (longer == screenHeight)
+		
+		if isPortrait {
 			timeDifferenceView.frame = CGRectMake((2*screenWidth - shorter) / 2, 0, screenWidth / 2, (screenHeight - shorter)/2)
+		} else {
+			timeDifferenceView.frame = CGRectMake((screenWidth - shorter )/2 + shorter, 0, (screenWidth - shorter)/2, screenHeight/2)
 		}
 		
 		
@@ -171,7 +189,9 @@ class ViewController: UIViewController, PieDelegate {
 		
 		self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
 	}
+
 	
+	// time travel
 	func startTimeTravel() {
 		if !self.isTimeTraveling {
 			print("Start time traveling")
@@ -185,15 +205,24 @@ class ViewController: UIViewController, PieDelegate {
 			print("end of time travel")
 			self.isTimeTraveling = false
 			timeDifferenceView.endTimeTravel()
-			timeDifferenceDidChange()
 			clockTime = NSDate()
+			timeDifferenceDidChange()
 		}
-		
+	}
+	
+	func timeTravelByInterval(interval: NSTimeInterval){
+		if !isTimeTraveling {
+			self.startTimeTravel()
+		}
+		print(interval)
+		clockTime = clockTime.dateByAddingTimeInterval(interval)
+		timeDifferenceDidChange()
 	}
 	
 	func timeDifferenceDidChange() {
 		timeDifferenceView.timeLabel.text = timeDiff.str
 	}
+	
 	
 	func loadApp() {
 		
@@ -208,45 +237,24 @@ class ViewController: UIViewController, PieDelegate {
 		self.view.addSubview(pieClock)
 	}
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
-
-		 self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update:", userInfo: nil, repeats: true)
-		
-		
-		let test = UILongPressGestureRecognizer(target: self, action: "doubleTap:")
-		self.view.addGestureRecognizer(test)
-
-		
-		// double tap to back to the current
-		let doubleTapGesture = UITapGestureRecognizer(target: self, action:"doubleTap:")
-		doubleTapGesture.numberOfTapsRequired = 2
-		self.view.addGestureRecognizer(doubleTapGesture)
-		
-		let oneHandRotation = XMCircleGestureRecognizer(midPoint: self.view.center, target: self, action: "rotateGesture:")
-		self.view.addGestureRecognizer(oneHandRotation)
-
-		
-	}
 	
+	
+	// gesture actions
 	func doubleTap(gesture: UITapGestureRecognizer) -> Void {
 		print("double tapped")
 		self.endTimeTravel()
-	
 	}
+	
+	
 
+	
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	
-	override func viewDidAppear(animated: Bool) {
-		
-		// 端末の向きがかわったらNotificationを呼ばす設定.
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onOrientationChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
-		
-	}
+	
 
 	func onOrientationChange(notification: NSNotification){
 		
@@ -254,15 +262,7 @@ class ViewController: UIViewController, PieDelegate {
 		
 	}
 	
-	func rotateGesture(recognizer:XMCircleGestureRecognizer) {
-		if let rotation = recognizer.rotation {
-			print("setting new clockTime")
-			self.startTimeTravel()
-			clockTime = clockTime.dateByAddingTimeInterval(Double(rotation.degrees * 120 ))
-			self.timeDifferenceDidChange()
-		}
-		
-	}
+	
 	
 	override func prefersStatusBarHidden() -> Bool {
 		return true

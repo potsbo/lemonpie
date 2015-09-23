@@ -13,6 +13,7 @@ private let π = CGFloat(M_PI)
 
 protocol PieDelegate {
 	func startTimeTravel()
+	func timeTravelByInterval(interval: NSTimeInterval)
 	func endTimeTravel()
 	func timeDifferenceDidChange()
 }
@@ -31,7 +32,13 @@ class Pie: UIView {
 			putIndexes()
 		}
 	}
+	override var frame: CGRect {
+		didSet{
+			oneFingerRotation?.midPoint = CGPointMake(self.frame.width/2, self.frame.height/2)
+		}
+	}
 	
+	var oneFingerRotation: XMCircleGestureRecognizer?
 	var indexLabels: [UILabel] = []
 
 	var endDate: NSDate {
@@ -39,8 +46,17 @@ class Pie: UIView {
 	}
 	
 	override init(frame: CGRect) {
+
 		super.init(frame: frame)
+		
+
 		self.startDate = NSDate()
+		
+		self.center = CGPointMake(self.frame.width / 2, self.frame.height / 2)
+		print(self.center)
+		
+		oneFingerRotation = XMCircleGestureRecognizer(midPoint: super.center, target: self, action: "rotateGesture:")
+		self.addGestureRecognizer(oneFingerRotation!)
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -125,6 +141,15 @@ class Pie: UIView {
 			self.addSubview(piece.titleLabel!)
 		}
 	}
+	
+	func rotateGesture(recognizer: XMCircleGestureRecognizer) {
+		if let rotation = recognizer.rotation {
+			print("setting new clockTime")
+			delegate.startTimeTravel()
+			delegate.timeTravelByInterval(NSTimeInterval(rotation.degrees * 120))
+		}
+	}
+
 }
 
 class Piece {
@@ -138,8 +163,6 @@ class Piece {
 		return endDate.isGreaterThanDate(superview.startDate) &&
 			startDate.isLessThanDate(superview.endDate)
 	}
-	
-
 	
 	var frame: CGRect
 	var title: String?
@@ -208,7 +231,7 @@ class Piece {
 	}
 	
 	func getAngle(hour: Double) -> CGFloat {
-		return -π/2 + π * CGFloat(hour/6)
+		return -π/2 + π * CGFloat(hour)/6
 	}
 	
 	func draw() {

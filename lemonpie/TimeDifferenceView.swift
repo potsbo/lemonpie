@@ -15,8 +15,9 @@ class TimeDifferenceView: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		backgroundColor = UIColor.clearColor()
-		timeLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+		timeLabel = UILabel(frame: CGRectMake(21, 21, 200, 70))
 		timeLabel.text = ""
+		timeLabel.font = UIFont(name: "Helvetica", size: 35)
 		timeLabel.textColor = UIColor.whiteColor()
 		self.addSubview(timeLabel)
 	}
