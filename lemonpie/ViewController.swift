@@ -17,6 +17,8 @@ class ViewController: UIViewController, PieDelegate {
 	// views
 	let pieClock = Pie(frame: CGRectMake(0,0,0,0))
 	var timeDifferenceView = TimeDifferenceView(frame: CGRectMake(0,0,0,0))
+	var digitalClockView = DigitalClockView(frame: CGRectMake(0,0,0,0))
+	
 	
 	// window size
 	var shorter: CGFloat {
@@ -36,8 +38,10 @@ class ViewController: UIViewController, PieDelegate {
 	var clockTime = NSDate() {
 		didSet {
 			pieClock.startDate = clockTime
+			digitalClockView.clockTime = clockTime
 		}
 	}
+	
 	var timeDiff: NSTimeInterval {
 		if !isTimeTraveling {
 			return 0
@@ -171,8 +175,10 @@ class ViewController: UIViewController, PieDelegate {
 		
 		if isPortrait {
 			timeDifferenceView.frame = CGRectMake((2*screenWidth - shorter) / 2, 0, screenWidth / 2, (screenHeight - shorter)/2)
+			digitalClockView.frame = CGRectMake(0, 0, screenWidth/2, (screenHeight - shorter))
 		} else {
 			timeDifferenceView.frame = CGRectMake((screenWidth - shorter )/2 + shorter, 0, (screenWidth - shorter)/2, screenHeight/2)
+			digitalClockView.frame = CGRectMake(0, 0, (screenWidth - shorter)/2, screenHeight/2)
 		}
 		
 		
@@ -220,7 +226,7 @@ class ViewController: UIViewController, PieDelegate {
 	}
 	
 	func timeDifferenceDidChange() {
-		timeDifferenceView.timeLabel.text = timeDiff.str
+		timeDifferenceView.timeDifference = self.timeDiff
 	}
 	
 	
@@ -229,6 +235,9 @@ class ViewController: UIViewController, PieDelegate {
 		layout()
 		timeDifferenceView.hidden = true
 		self.view.addSubview(timeDifferenceView)
+		
+		self.view.addSubview(digitalClockView)
+		digitalClockView.fadeIn(.Slow)
 		
 		pieClock.delegate = self
 		pieClock.applyTheme()

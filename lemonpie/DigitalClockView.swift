@@ -1,21 +1,21 @@
 //
-//  TimeDifferenceView.swift
+//  DigitalClockView.swift
 //  lemonpie
 //
-//  Created by Shimpei Otsubo on 22/09/2015.
+//  Created by Shimpei Otsubo on 24/09/2015.
 //  Copyright © 2015 mikan-labs. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class TimeDifferenceView: UIView {
-	private var timeLabel = UILabel()
-	var timeDifference: NSTimeInterval = 0 {
+class DigitalClockView: UIView {
+	var clockTime = NSDate() {
 		didSet {
-			timeLabel.text = timeDifference.str
+			timeLabel.text = String(format: "%02d",Int(floor(clockTime.hour))) + ":" + String(format: "%02d",Int(floor(clockTime.minute)))
 		}
 	}
+	private var timeLabel = UILabel()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -29,13 +29,5 @@ class TimeDifferenceView: UIView {
 
 	required init?(coder aDecoder: NSCoder) {
 	    fatalError("init(coder:) has not been implemented")
-	}
-	
-	func startTimeTravel(){
-		self.fadeIn(.Slow)
-		timeLabel.text = "time travel"
-	}
-	func endTimeTravel(){
-		self.fadeOut(.Normal)
 	}
 }
