@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8702EB531BB0D60100D327C3 /* TimeDifferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702EB521BB0D60100D327C3 /* TimeDifferenceView.swift */; settings = {ASSET_TAGS = (); }; };
+		873B6D971BB58D8C00AF367E /* CushoningTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873B6D961BB58D8C00AF367E /* CushoningTime.swift */; settings = {ASSET_TAGS = (); }; };
 		8746FB151BB4031E00790242 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746FB141BB4031E00790242 /* DigitalClockView.swift */; settings = {ASSET_TAGS = (); }; };
 		877DFB171BAF367700ED8B5E /* hexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB161BAF367700ED8B5E /* hexColor.swift */; settings = {ASSET_TAGS = (); }; };
 		877DFB191BB0463C00ED8B5E /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */; settings = {ASSET_TAGS = (); }; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		8702EB521BB0D60100D327C3 /* TimeDifferenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeDifferenceView.swift; sourceTree = "<group>"; };
+		873B6D961BB58D8C00AF367E /* CushoningTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CushoningTime.swift; sourceTree = "<group>"; };
 		8746FB141BB4031E00790242 /* DigitalClockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		877DFB161BAF367700ED8B5E /* hexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hexColor.swift; sourceTree = "<group>"; };
 		877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				87C4B1991BB1C6160061E2EF /* ClockHand.swift */,
 				87A971021BAC6BBA004D0AA3 /* ViewController.swift */,
 				87C019871BB1853500F118B2 /* XMCircleGestureRecognizer.swift */,
+				873B6D961BB58D8C00AF367E /* CushoningTime.swift */,
 				87D343881BB05DE50018BCD6 /* fade.swift */,
 				8702EB521BB0D60100D327C3 /* TimeDifferenceView.swift */,
 				877DFB181BB0463C00ED8B5E /* NSDateExtension.swift */,
@@ -294,6 +297,7 @@
 				87C4B19A1BB1C6160061E2EF /* ClockHand.swift in Sources */,
 				87A971031BAC6BBA004D0AA3 /* ViewController.swift in Sources */,
 				87A971011BAC6BBA004D0AA3 /* AppDelegate.swift in Sources */,
+				873B6D971BB58D8C00AF367E /* CushoningTime.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class ViewController: UIViewController, PieDelegate {
+class ViewController: UIViewController, PieDelegate, TimeManageProtocol {
 	
 	var timer: NSTimer!
 	let eventStore = EKEventStore()
@@ -35,18 +35,18 @@ class ViewController: UIViewController, PieDelegate {
 	}
 	
 	// time management
-	var clockTime = NSDate() {
-		didSet {
-			pieClock.startDate = clockTime
-			digitalClockView.clockTime = clockTime
-		}
+	var clock = CushoningTime()
+	
+	func clockTimeChangedTo(newDate: NSDate){
+		pieClock.startDate = clock.time
+		digitalClockView.clockTime = clock.time
 	}
 	
 	var timeDiff: NSTimeInterval {
 		if !isTimeTraveling {
 			return 0
 		}
-		return clockTime.timeIntervalSinceNow
+		return clock.time.timeIntervalSinceNow
 	}
 	var isTimeTraveling = false
 	
@@ -82,7 +82,7 @@ class ViewController: UIViewController, PieDelegate {
 	
 	func update(timer : NSTimer){
 		if !isTimeTraveling {
-			clockTime = NSDate()
+			clock.setNewTime(NSDate())
 		} else {
 			
 		}
@@ -211,7 +211,7 @@ class ViewController: UIViewController, PieDelegate {
 			print("end of time travel")
 			self.isTimeTraveling = false
 			timeDifferenceView.endTimeTravel()
-			clockTime = NSDate()
+			clock.setNewTime(NSDate())
 			timeDifferenceDidChange()
 		}
 	}
@@ -220,8 +220,7 @@ class ViewController: UIViewController, PieDelegate {
 		if !isTimeTraveling {
 			self.startTimeTravel()
 		}
-		print(interval)
-		clockTime = clockTime.dateByAddingTimeInterval(interval)
+		clock.dateByAddingTimeInterval(interval, force: true)
 		timeDifferenceDidChange()
 	}
 	
@@ -239,6 +238,7 @@ class ViewController: UIViewController, PieDelegate {
 		self.view.addSubview(digitalClockView)
 		digitalClockView.fadeIn(.Slow)
 		
+		clock.delegate = self
 		pieClock.delegate = self
 		pieClock.applyTheme()
 		pieClock.addHourHand(NSDate())

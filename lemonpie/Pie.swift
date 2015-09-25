@@ -144,7 +144,6 @@ class Pie: UIView {
 	
 	func rotateGesture(recognizer: XMCircleGestureRecognizer) {
 		if let rotation = recognizer.rotation {
-			print("setting new clockTime")
 			delegate.startTimeTravel()
 			delegate.timeTravelByInterval(NSTimeInterval(rotation.degrees * 120))
 		}

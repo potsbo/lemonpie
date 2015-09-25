@@ -156,8 +156,7 @@ public class XMCircleGestureRecognizer: UIGestureRecognizer {
     }
 
     override public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-		print("touchesMoved")
-        
+		
         super.touchesMoved(touches, withEvent: event)
         
         if state == .Failed {
