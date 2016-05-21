@@ -18,13 +18,24 @@ protocol PieDelegate {
 	func timeDifferenceDidChange()
 }
 
-class Pie: UIView {
-	var pieces: [Piece] = []
+protocol PieceDelegate {
+	func getRadius(midDate: NSDate)-> CGFloat
+	func getTimeRemainingUntil(midDate: NSDate)-> NSTimeInterval
+	func getAngleForHour(hour: CGFloat) -> CGFloat
+	func getAlpha(hour: NSDate) -> CGFloat
+}
+
+class Pie: UIView, PieceDelegate {
+	private var pieces: [Piece] = []
 	var hourHand: ClockHand!
-	var secondHand: Piece?
-	var theme = ClockTheme()
+	var theme = ClockTheme.sharedInstance
 	var viewController = UIViewController()
 	var delegate: PieDelegate!
+	var showHours = 12
+	var showSeconds: Int {
+		return showHours * 3600
+	}
+	
 	var startDate = NSDate() {
 		didSet {
 			adjustHands()
@@ -42,7 +53,7 @@ class Pie: UIView {
 	var indexLabels: [UILabel] = []
 
 	var endDate: NSDate {
-		return startDate.dateByAddingTimeInterval(12 * 60 * 60) // 12hours
+		return startDate.dateByAddingTimeInterval(Double(showSeconds))
 	}
 	
 	override init(frame: CGRect) {
@@ -69,6 +80,22 @@ class Pie: UIView {
 		}
 	}
 	
+	func getRadius(midDate: NSDate) -> CGFloat {
+		return self.radius - CGFloat(midDate.timeIntervalSinceDate(startDate))/3600 * 5
+	}
+	
+	func getAngleForHour(hour: CGFloat) -> CGFloat {
+		return 2*π / CGFloat(showHours) * CGFloat(hour) - π/2
+	}
+	
+	func getTimeRemainingUntil(midDate: NSDate) -> NSTimeInterval {
+		return midDate.timeIntervalSinceDate(startDate)
+	}
+	
+	func getAlpha(hour: NSDate) -> CGFloat {
+		return 1 - CGFloat(getTimeRemainingUntil(hour)/Double(showSeconds))
+	}
+	
 	func adjustHands(){
 		hourHand?.time = startDate
 		hourHand?.draw()
@@ -81,7 +108,9 @@ class Pie: UIView {
 	}
 	
 	func addPiece(event: EKEvent){
-		pieces.append(Piece(frame: frame, event: event, superview: self))
+		let newPiece = Piece(frame: frame, event: event, superview: self)
+		newPiece.delegate = self
+		pieces.append(newPiece)
 	}
 
 	func addHourHand(now: NSDate){
@@ -106,7 +135,7 @@ class Pie: UIView {
 		indexLabels = []
 		
 		let nearest = Int(ceil(startDate.hour))
-		for var i = nearest; i < nearest + 12; i++ {
+		for var i = nearest; i < nearest + showHours; i++ {
 			var indexRaw = i
 			if i > 24 {
 				indexRaw = i % 24
@@ -115,9 +144,10 @@ class Pie: UIView {
 			let indexNum = indexRaw
 			
 			if theme.isToShow(indexNum) {
-				let index = (indexNum + 9) % 12
-				let x = CGFloat(cos(π * CGFloat(index) / 6)) * (radius + self.theme.indexPadding)
-				let y = CGFloat(sin(π * CGFloat(index) / 6)) * (radius + self.theme.indexPadding)
+				let index = indexNum % 24
+				let angle = getAngleForHour(CGFloat(index))
+				let x = CGFloat(cos(angle)) * (radius + self.theme.indexPadding)
+				let y = CGFloat(sin(angle)) * (radius + self.theme.indexPadding)
 				let indexLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
 				indexLabel.center = CGPointMake(x + self.frame.width/2, y + self.frame.height/2)
 				indexLabel.textAlignment = NSTextAlignment.Center
@@ -145,33 +175,33 @@ class Pie: UIView {
 	func rotateGesture(recognizer: XMCircleGestureRecognizer) {
 		if let rotation = recognizer.rotation {
 			delegate.startTimeTravel()
-			delegate.timeTravelByInterval(NSTimeInterval(rotation.degrees * 120))
+			delegate.timeTravelByInterval(NSTimeInterval(rotation.degrees*10 * CGFloat(showHours)))
 		}
 	}
 
 }
 
-class Piece {
+private class Piece {
 	
-	var superview: Pie
+	private var superview: Pie
 	
-	var startDate: NSDate
-	var endDate: NSDate
+	private var startDate: NSDate
+	private var endDate: NSDate
+	private var delegate: PieceDelegate?
 	
-	var isToShow: Bool {
+	private var isToShow: Bool {
 		return endDate.isGreaterThanDate(superview.startDate) &&
 			startDate.isLessThanDate(superview.endDate)
 	}
 	
-	var frame: CGRect
-	var title: String?
-	var titleLabel: UILabel?
-	var event: EKEvent?
-	var theme = ClockTheme()
-	var arc = CAShapeLayer()
-	var radius: CGFloat {
+	private var frame: CGRect
+	private var title: String?
+	private var titleLabel: UILabel?
+	private var event: EKEvent?
+	private var arc = CAShapeLayer()
+	private var radius: CGFloat {
 		get {
-			return self.frame.width*3/8
+			return delegate?.getRadius(drawMidDate) ?? self.frame.width * 3/8
 		}
 	}
 	
@@ -184,14 +214,14 @@ class Piece {
 		self.superview = superview
 	}
 
-	var drawStartDate: NSDate {
+	private var drawStartDate: NSDate {
 		if superview.startDate.isGreaterThanDate(self.startDate) {
 			return superview.startDate
 		}
 		return self.startDate
 	}
 	
-	var drawEndDate: NSDate {
+	private var drawEndDate: NSDate {
 		get {
 			if superview.endDate.isLessThanDate(self.endDate) {
 				return superview.endDate
@@ -200,43 +230,43 @@ class Piece {
 		}
 	}
 	
-	var startAngle: CGFloat {
+	private var startAngle: CGFloat {
 		get {
 			return getAngle(drawStartDate.hour)
 		}
 	}
-	var endAngle: CGFloat {
+	private var endAngle: CGFloat {
 		get {
 			return getAngle(drawEndDate.hour)
 		}
 	}
 	
-	var arcCenter: CGPoint {
+	private var arcCenter: CGPoint {
 		get {
 			return CGPointMake(self.frame.width/2, self.frame.height/2)
 		}
 	}
 	
-	var midH: Double {
+	private var drawMidDate: NSDate {
 		get {
-			return (drawStartDate.hour + drawEndDate.hour)/2
+			return drawStartDate.dateByAddingTimeInterval(drawEndDate.timeIntervalSinceDate(drawStartDate)/2)
 		}
 	}
 	
-	var midAngle: CGFloat {
+	private var midAngle: CGFloat {
 		get {
-			return getAngle(midH)
+			return getAngle(drawMidDate.hour)
 		}
 	}
 	
-	func getAngle(hour: Double) -> CGFloat {
-		return -π/2 + π * CGFloat(hour)/6
+	private func getAngle(hour: CGFloat) -> CGFloat {
+		return (delegate?.getAngleForHour(hour))!
 	}
 	
 	func draw() {
 		if isToShow {
 			arc.lineWidth = 2
-			arc.strokeColor = theme.titleLabelColor.CGColor
+			arc.strokeColor = ClockTheme.sharedInstance.titleLabelColor.CGColor
 			arc.fillColor = nil
 			
 			let path = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
@@ -244,6 +274,7 @@ class Piece {
 			path.closePath()
 			
 			arc.path = path.CGPath
+			arc.opacity = Float((delegate?.getAlpha(startDate))!)
 		}
 		
 	}
@@ -263,12 +294,12 @@ class Piece {
 			let midPoint = CGPointMake(x, y)
 			
 			titleLabel?.center = CGPointMake((arcCenter.x + 2*midPoint.x)/3, (arcCenter.y + 2*midPoint.y)/3)
-			titleLabel?.textColor = theme.titleLabelColor
+			titleLabel?.textColor = ClockTheme.sharedInstance.titleLabelColor
 			
 			if -π/6 < midAngle && midAngle < 0 {
-				titleLabel?.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! + theme.indexPadding/3)
+				titleLabel?.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! + ClockTheme.sharedInstance.indexPadding/3)
 			} else if 0 < midAngle && midAngle < π/6 {
-				titleLabel!.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! - theme.indexPadding/3)
+				titleLabel!.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! - ClockTheme.sharedInstance.indexPadding/3)
 			} else if midAngle < 7*π/6 && midAngle > 5*π/6 {
 				
 			} else {
@@ -281,6 +312,8 @@ class Piece {
 			
 			titleLabel?.textAlignment = NSTextAlignment.Center
 			titleLabel?.hidden = false
+			titleLabel?.alpha = (delegate?.getAlpha(startDate))!
+
 		} else {
 			titleLabel?.hidden = true
 		}
@@ -291,7 +324,7 @@ class Piece {
 	func showTitle(){
 		if title != nil {
 			titleLabel = nil
-			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, theme.indexPadding))
+			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, ClockTheme.sharedInstance.indexPadding))
 			titleLabel!.text = title
 			titleLabel!.hidden = false
 			

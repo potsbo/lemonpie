@@ -9,24 +9,27 @@
 import Foundation
 import UIKit
 
-class ClockTheme {
-	var lineColor = UIColor.whiteColor()
-	var pieBackColor = UIColor.clearColor()
-	var indexColor = UIColor.whiteColor()
-	var indexBitMask: Int
-	var is24h = true
-	var titleLabelColor = UIColor.whiteColor()
+class ClockTheme { //Singleton
+	
+	static let sharedInstance = ClockTheme()
+	
+	private(set) var lineColor = UIColor.whiteColor()
+	private(set) var pieBackColor = UIColor.clearColor()
+	private(set) var indexColor = UIColor.whiteColor()
+	private(set) var indexBitMask: Int = 0
+	private(set) var is24h = true
+	private(set) var titleLabelColor = UIColor.whiteColor()
+	private(set) var indexPadding: CGFloat = 21
+	
+	private init() {
+		self.indexEvery(1)
+	}
+	
 	func isToShow(index: Int) -> Bool{
 		if (self.indexBitMask & (1 << (index % 12))) >> (index % 12) == 1 {
 			return true
 		}
 		return false
-	}
-	var indexPadding: CGFloat = 21
-	
-	init() {
-		indexBitMask = 0
-		self.indexEvery(1)
 	}
 	
 	func indexEvery(num: Int) {

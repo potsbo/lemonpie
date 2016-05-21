@@ -34,7 +34,7 @@ class ClockHand {
 		self.clock = superview
 	}
 	
-	func getAngle(hour: Double) -> CGFloat {
+	func getAngle(hour: CGFloat) -> CGFloat {
 		return -π/2 + π * CGFloat(hour/6)
 	}
 	

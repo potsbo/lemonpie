@@ -7,27 +7,28 @@
 //
 
 import Foundation
+import UIKit
 
 extension NSDate {
-	var hour: Double {
+	var hour: CGFloat {
 		get {
 			let calendar = NSCalendar.currentCalendar()
 			let components = calendar.components([.Hour, .Minute, .Second], fromDate: self)
-			return Double(3600 * components.hour + 60 * components.minute + components.second) / 3600.0
+			return CGFloat(3600 * components.hour + 60 * components.minute + components.second) / 3600.0
 		}
 	}
-	var minute: Double {
+	var minute: CGFloat {
 		get {
 			let calendar = NSCalendar.currentCalendar()
 			let components = calendar.components([.Minute, .Second], fromDate: self)
-			return Double(60 * components.minute + components.second) / 60.0
+			return CGFloat(60 * components.minute + components.second) / 60.0
 		}
 	}
-	var second: Double {
+	var second: CGFloat {
 		get {
 			let calendar = NSCalendar.currentCalendar()
 			let components = calendar.components([.Second], fromDate: self)
-			return Double(components.second)
+			return CGFloat(components.second)
 		}
 	}
 

@@ -19,7 +19,6 @@ class ViewController: UIViewController, PieDelegate, TimeManageProtocol {
 	var timeDifferenceView = TimeDifferenceView(frame: CGRectMake(0,0,0,0))
 	var digitalClockView = DigitalClockView(frame: CGRectMake(0,0,0,0))
 	
-	
 	// window size
 	var shorter: CGFloat {
 		return min(screenWidth, screenHeight)
@@ -49,6 +48,7 @@ class ViewController: UIViewController, PieDelegate, TimeManageProtocol {
 		return clock.time.timeIntervalSinceNow
 	}
 	var isTimeTraveling = false
+	let timeBackTo = 0
 	
 	// settings
 	let excludeAllDay = true
@@ -141,7 +141,7 @@ class ViewController: UIViewController, PieDelegate, TimeManageProtocol {
 		/* Create the predicate that we can later pass to the
 		event store in order to fetch the events */
 		let searchPredicate = eventStore.predicateForEventsWithStartDate(
-			startDate,
+			startDate.dateByAddingTimeInterval(-60*60*24*2),
 			endDate: endDate.dateByAddingTimeInterval(60*60*24*7), calendars: nil)
 		
 		/* Fetch all the events that fall between
@@ -230,7 +230,7 @@ class ViewController: UIViewController, PieDelegate, TimeManageProtocol {
 	
 	
 	func loadApp() {
-		
+
 		layout()
 		timeDifferenceView.hidden = true
 		self.view.addSubview(timeDifferenceView)
