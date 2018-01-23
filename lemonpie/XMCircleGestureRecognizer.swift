@@ -31,7 +31,7 @@ public class XMCircleGestureRecognizer: UIGestureRecognizer {
     //MARK: Public Properties
     
     // midpoint for gesture recognizer
-    public var midPoint = CGPointZero
+    public var midPoint = CGPoint(x: 0, y: 0)
     
     // minimal distance from midpoint
     public var innerRadius:CGFloat?
