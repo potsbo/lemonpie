@@ -13,16 +13,16 @@ class ClockTheme { //Singleton
 	
 	static let sharedInstance = ClockTheme()
 	
-	private(set) var lineColor = UIColor.whiteColor()
-    private(set) var pieBackColor = UIColor.clearColor
-    private(set) var indexColor = UIColor.whiteColor
+    private(set) var lineColor = UIColor.white
+    private(set) var pieBackColor = UIColor.clear
+    private(set) var indexColor = UIColor.white
 	private(set) var indexBitMask: Int = 0
 	private(set) var is24h = true
-    private(set) var titleLabelColor = UIColor.whiteColor
+    private(set) var titleLabelColor = UIColor.white
 	private(set) var indexPadding: CGFloat = 21
 	
 	private init() {
-		self.indexEvery(1)
+        self.indexEvery(num: 1)
 	}
 	
 	func isToShow(index: Int) -> Bool{
@@ -34,8 +34,8 @@ class ClockTheme { //Singleton
 	
 	func indexEvery(num: Int) {
 		self.indexBitMask = 0
-		for var i = 0; i < 12; i += num {
-			self.indexBitMask += 0b1 << i
-		}
+        for i in (0..<12) {
+            self.indexBitMask += 0b1 << (i * num)
+        }
 	}
 }
