@@ -43,7 +43,7 @@ public class XMCircleGestureRecognizer: UIGestureRecognizer {
     public var rotation:CGFloat? {
         if let currentPoint = self.currentPoint {
             if let previousPoint = self.previousPoint {
-                var rotation = angleBetween(currentPoint, andPointB: previousPoint)
+                var rotation = angleBetween(pointA: currentPoint, andPointB: previousPoint)
                 
                 if (rotation > π) {
                     rotation -= π*2
@@ -61,7 +61,7 @@ public class XMCircleGestureRecognizer: UIGestureRecognizer {
     // absolute angle for current gesture (in radians)
     public var angle:CGFloat? {
         if let nowPoint = self.currentPoint {
-            return self.angleForPoint(nowPoint)
+            return self.angleForPoint(point: nowPoint)
         }
     
         return nil
@@ -70,7 +70,7 @@ public class XMCircleGestureRecognizer: UIGestureRecognizer {
     // distance from midpoint
     public var distance:CGFloat? {
         if let nowPoint = self.currentPoint {
-            return self.distanceBetween(self.midPoint, andPointB: nowPoint)
+            return self.distanceBetween(pointA: self.midPoint, andPointB: nowPoint)
         }
     
         return nil
