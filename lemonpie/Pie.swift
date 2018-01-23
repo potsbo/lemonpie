@@ -88,7 +88,7 @@ class Pie: UIView, PieceDelegate {
 		return 2*π / CGFloat(showHours) * CGFloat(hour) - π/2
 	}
 	
-	func getTimeRemainingUntil(midDate: NSDate) -> NSTimeInterval {
+    func getTimeRemainingUntil(midDate: NSDate) -> TimeInterval {
 		return midDate.timeIntervalSinceDate(startDate)
 	}
 	
