@@ -63,7 +63,7 @@ class Pie: UIView, PieceDelegate {
 
 		self.startDate = NSDate()
 		
-		self.center = CGPointMake(self.frame.width / 2, self.frame.height / 2)
+        self.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
 		print(self.center)
 		
 		oneFingerRotation = XMCircleGestureRecognizer(midPoint: super.center, target: self, action: "rotateGesture:")
