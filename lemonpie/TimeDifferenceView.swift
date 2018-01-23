@@ -11,7 +11,7 @@ import UIKit
 
 class TimeDifferenceView: UIView {
 	private var timeLabel = UILabel()
-	var timeDifference: NSTimeInterval = 0 {
+    var timeDifference: TimeInterval = 0 {
 		didSet {
 			timeLabel.text = timeDifference.str
 		}
@@ -19,11 +19,11 @@ class TimeDifferenceView: UIView {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
 		timeLabel = UILabel(frame: CGRectMake(21, 21, 200, 70))
 		timeLabel.text = ""
 		timeLabel.font = UIFont(name: "Helvetica", size: 35)
-		timeLabel.textColor = UIColor.whiteColor()
+        timeLabel.textColor = UIColor.white
 		self.addSubview(timeLabel)
 	}
 

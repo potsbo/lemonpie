@@ -13,14 +13,14 @@ private let π = CGFloat(M_PI)
 
 protocol PieDelegate {
 	func startTimeTravel()
-	func timeTravelByInterval(interval: NSTimeInterval)
+    func timeTravelByInterval(interval: TimeInterval)
 	func endTimeTravel()
 	func timeDifferenceDidChange()
 }
 
 protocol PieceDelegate {
 	func getRadius(midDate: NSDate)-> CGFloat
-	func getTimeRemainingUntil(midDate: NSDate)-> NSTimeInterval
+    func getTimeRemainingUntil(midDate: NSDate)-> TimeInterval
 	func getAngleForHour(hour: CGFloat) -> CGFloat
 	func getAlpha(hour: NSDate) -> CGFloat
 }
@@ -53,7 +53,7 @@ class Pie: UIView, PieceDelegate {
 	var indexLabels: [UILabel] = []
 
 	var endDate: NSDate {
-		return startDate.dateByAddingTimeInterval(Double(showSeconds))
+        return startDate.addingTimeInterval(Double(showSeconds))
 	}
 	
 	override init(frame: CGRect) {

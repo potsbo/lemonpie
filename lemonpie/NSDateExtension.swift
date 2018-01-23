@@ -52,7 +52,7 @@ extension NSDate {
 		var isLess = false
 		
 		//Compare Values
-		if self.compare(dateToCompare) == NSComparisonResult.OrderedAscending
+        if self.compare(dateToCompare as Date) == ComparisonResult.orderedAscending
 		{
 			isLess = true
 		}
@@ -63,8 +63,8 @@ extension NSDate {
 	
 	
 	func addDays(daysToAdd : Int) -> NSDate	{
-		let secondsInDays : NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
-		let dateWithDaysAdded : NSDate = self.dateByAddingTimeInterval(secondsInDays)
+        let secondsInDays : TimeInterval = Double(daysToAdd) * 60 * 60 * 24
+        let dateWithDaysAdded : NSDate = self.addingTimeInterval(secondsInDays)
 		
 		//Return Result
 		return dateWithDaysAdded
@@ -72,8 +72,8 @@ extension NSDate {
 	
 	
 	func addHours(hoursToAdd : Int) -> NSDate {
-		let secondsInHours : NSTimeInterval = Double(hoursToAdd) * 60 * 60
-		let dateWithHoursAdded : NSDate = self.dateByAddingTimeInterval(secondsInHours)
+        let secondsInHours : TimeInterval = Double(hoursToAdd) * 60 * 60
+        let dateWithHoursAdded : NSDate = self.addingTimeInterval(secondsInHours)
 		
 		//Return Result
 		return dateWithHoursAdded

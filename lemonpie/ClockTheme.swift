@@ -14,11 +14,11 @@ class ClockTheme { //Singleton
 	static let sharedInstance = ClockTheme()
 	
 	private(set) var lineColor = UIColor.whiteColor()
-	private(set) var pieBackColor = UIColor.clearColor()
-	private(set) var indexColor = UIColor.whiteColor()
+    private(set) var pieBackColor = UIColor.clearColor
+    private(set) var indexColor = UIColor.whiteColor
 	private(set) var indexBitMask: Int = 0
 	private(set) var is24h = true
-	private(set) var titleLabelColor = UIColor.whiteColor()
+    private(set) var titleLabelColor = UIColor.whiteColor
 	private(set) var indexPadding: CGFloat = 21
 	
 	private init() {
