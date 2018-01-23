@@ -37,7 +37,7 @@ extension Date {
 		var isGreater = false
 		
 		//Compare Values
-        if self.compare(dateToCompare) == ComparisonResult.OrderedDescending
+        if self.compare(dateToCompare) == ComparisonResult.orderedDescending
 		{
 			isGreater = true
 		}

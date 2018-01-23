@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class DigitalClockView: UIView {
-	var clockTime = NSDate() {
+	var clockTime = Date() {
 		didSet {
 			timeLabel.text = String(format: "%02d",Int(floor(clockTime.hour))) + ":" + String(format: "%02d",Int(floor(clockTime.minute)))
 		}
@@ -19,11 +19,11 @@ class DigitalClockView: UIView {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		backgroundColor = UIColor.clearColor()
-		timeLabel = UILabel(frame: CGRectMake(21, 21, 200, 70))
+        backgroundColor = UIColor.clear
+        timeLabel = UILabel(frame: CGRect(x: 21, y: 21, width: 200, height: 70))
 		timeLabel.text = ""
 		timeLabel.font = UIFont(name: "Helvetica", size: 35)
-		timeLabel.textColor = UIColor.whiteColor()
+        timeLabel.textColor = UIColor.white
 		self.addSubview(timeLabel)
 	}
 

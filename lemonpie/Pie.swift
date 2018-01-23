@@ -135,7 +135,7 @@ class Pie: UIView, PieceDelegate {
 		indexLabels = []
 		
 		let nearest = Int(ceil(startDate.hour))
-		for var i = nearest; i < nearest + showHours; i++ {
+        for i in (nearest..<(nearest+showHours)) {
 			var indexRaw = i
 			if i > 24 {
 				indexRaw = i % 24
@@ -148,9 +148,9 @@ class Pie: UIView, PieceDelegate {
                 let angle = getAngleForHour(hour: CGFloat(index))
 				let x = CGFloat(cos(angle)) * (radius + self.theme.indexPadding)
 				let y = CGFloat(sin(angle)) * (radius + self.theme.indexPadding)
-				let indexLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+                let indexLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
                 indexLabel.center = CGPoint(x: x + self.frame.width/2, y: y + self.frame.height/2)
-				indexLabel.textAlignment = NSTextAlignment.Center
+                indexLabel.textAlignment = NSTextAlignment.center
 				indexLabel.text = String(indexNum)
 				indexLabel.textColor = self.theme.indexColor
 				self.addSubview(indexLabel)
@@ -175,7 +175,7 @@ class Pie: UIView, PieceDelegate {
 	func rotateGesture(recognizer: XMCircleGestureRecognizer) {
 		if let rotation = recognizer.rotation {
 			delegate.startTimeTravel()
-            delegate.timeTravelByInterval(TimeInterval(rotation.degrees*10 * CGFloat(showHours)))
+            delegate.timeTravelByInterval(interval: TimeInterval(rotation.degrees*10 * CGFloat(showHours)))
 		}
 	}
 
@@ -266,14 +266,14 @@ private class Piece {
 	func draw() {
 		if isToShow {
 			arc.lineWidth = 2
-			arc.strokeColor = ClockTheme.sharedInstance.titleLabelColor.CGColor
+            arc.strokeColor = ClockTheme.sharedInstance.titleLabelColor.cgColor
 			arc.fillColor = nil
 			
 			let path = UIBezierPath(arcCenter: arcCenter, radius: self.radius,  startAngle: startAngle, endAngle: endAngle, clockwise: true)
-			path.addLineToPoint(arcCenter)
-			path.closePath()
+            path.addLine(to: arcCenter)
+            path.close()
 			
-			arc.path = path.CGPath
+            arc.path = path.cgPath
 			arc.opacity = Float((delegate?.getAlpha(startDate))!)
 		}
 		
