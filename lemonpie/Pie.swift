@@ -45,7 +45,7 @@ class Pie: UIView, PieceDelegate {
 	}
 	override var frame: CGRect {
 		didSet{
-			oneFingerRotation?.midPoint = CGPointMake(self.frame.width/2, self.frame.height/2)
+            oneFingerRotation?.midPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
 		}
 	}
 	
@@ -243,13 +243,13 @@ private class Piece {
 	
 	private var arcCenter: CGPoint {
 		get {
-			return CGPointMake(self.frame.width/2, self.frame.height/2)
+            return CGPoint(x: self.frame.width/2, y: self.frame.height/2)
 		}
 	}
 	
 	private var drawMidDate: Date {
 		get {
-            return drawStartDate.addingTimeInterval(drawEndDate.timeIntervalSinceDate(drawStartDate)/2)
+            return drawStartDate.addingTimeInterval(drawEndDate.timeIntervalSince(drawStartDate)/2)
 		}
 	}
 	
@@ -274,7 +274,7 @@ private class Piece {
             path.close()
 			
             arc.path = path.cgPath
-			arc.opacity = Float((delegate?.getAlpha(startDate))!)
+            arc.opacity = Float((delegate?.getAlpha(hour: startDate))!)
 		}
 		
 	}
@@ -291,31 +291,31 @@ private class Piece {
 		if isToShow {
 			let x = cos(midAngle) * self.radius + self.frame.width/2
 			let y = sin(midAngle) * self.radius + self.frame.height/2
-			let midPoint = CGPointMake(x, y)
+            let midPoint = CGPoint(x: x, y: y)
 			
-			titleLabel?.center = CGPointMake((arcCenter.x + 2*midPoint.x)/3, (arcCenter.y + 2*midPoint.y)/3)
+            titleLabel?.center = CGPoint(x: (arcCenter.x + 2*midPoint.x)/3, y: (arcCenter.y + 2*midPoint.y)/3)
 			titleLabel?.textColor = ClockTheme.sharedInstance.titleLabelColor
 			
 			if -π/6 < midAngle && midAngle < 0 {
-				titleLabel?.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! + ClockTheme.sharedInstance.indexPadding/3)
+                titleLabel?.center = CGPoint(x: (titleLabel?.center.x)!, y: (titleLabel?.center.y)! + ClockTheme.sharedInstance.indexPadding/3)
 			} else if 0 < midAngle && midAngle < π/6 {
-				titleLabel!.center = CGPointMake((titleLabel?.center.x)!, (titleLabel?.center.y)! - ClockTheme.sharedInstance.indexPadding/3)
+                titleLabel!.center = CGPoint(x: (titleLabel?.center.x)!, y: (titleLabel?.center.y)! - ClockTheme.sharedInstance.indexPadding/3)
 			} else if midAngle < 7*π/6 && midAngle > 5*π/6 {
 				
 			} else {
 				if midAngle > π/2 {
-					titleLabel?.transform = CGAffineTransformMakeRotation(midAngle+π);
+                    titleLabel?.transform = CGAffineTransform(rotationAngle: midAngle+π);
 				} else {
-					titleLabel?.transform = CGAffineTransformMakeRotation(midAngle);
+                    titleLabel?.transform = CGAffineTransform(rotationAngle: midAngle);
 				}
 			}
 			
-			titleLabel?.textAlignment = NSTextAlignment.Center
-			titleLabel?.hidden = false
-			titleLabel?.alpha = (delegate?.getAlpha(startDate))!
+            titleLabel?.textAlignment = NSTextAlignment.center
+            titleLabel?.isHidden = false
+            titleLabel?.alpha = (delegate?.getAlpha(hour: startDate))!
 
 		} else {
-			titleLabel?.hidden = true
+            titleLabel?.isHidden = true
 		}
 		
 	
@@ -324,9 +324,9 @@ private class Piece {
 	func showTitle(){
 		if title != nil {
 			titleLabel = nil
-			titleLabel = UILabel(frame: CGRectMake(0, 0, 200, ClockTheme.sharedInstance.indexPadding))
+            titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: ClockTheme.sharedInstance.indexPadding))
 			titleLabel!.text = title
-			titleLabel!.hidden = false
+            titleLabel!.isHidden = false
 			
 			adjustTitle()
 		}

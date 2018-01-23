@@ -129,27 +129,31 @@ public class XMCircleGestureRecognizer: UIGestureRecognizer {
         super.touchesBegan(touches, with: event)
 
 		if let touch = touches.first {
+            var newState:UIGestureRecognizerState = .possible
             currentPoint = touch.location(in: self.view)
 			
-            var newState:UIGestureRecognizerState = .possible
-			
+ 
+            guard let dist = distance else {
+                state = .failed
+                return
+            }
 			if let innerRadius = self.innerRadius {
-				if distance < innerRadius {
-                    newState = .failed
+				if dist < innerRadius {
+                    state = .failed
+                    return
 				}
 			}
 			
 			if let outerRadius = self.outerRadius {
-				if distance > outerRadius {
-                    newState = .failed
+				if dist > outerRadius {
+                    state = .failed
+                    return
 				}
 			}
 			if touches.count > 1 {
                 state = .failed
+                return
 			}
-			
-			state = newState
-			
 		}
 		
 				
