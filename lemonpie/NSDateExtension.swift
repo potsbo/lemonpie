@@ -12,21 +12,21 @@ import UIKit
 extension NSDate {
 	var hour: CGFloat {
 		get {
-			let calendar = NSCalendar.currentCalendar()
+            let calendar = NSCalendar.current
 			let components = calendar.components([.Hour, .Minute, .Second], fromDate: self)
 			return CGFloat(3600 * components.hour + 60 * components.minute + components.second) / 3600.0
 		}
 	}
 	var minute: CGFloat {
 		get {
-			let calendar = NSCalendar.currentCalendar()
+            let calendar = NSCalendar.current
 			let components = calendar.components([.Minute, .Second], fromDate: self)
 			return CGFloat(60 * components.minute + components.second) / 60.0
 		}
 	}
 	var second: CGFloat {
 		get {
-			let calendar = NSCalendar.currentCalendar()
+            let calendar = NSCalendar.current
 			let components = calendar.components([.Second], fromDate: self)
 			return CGFloat(components.second)
 		}
@@ -37,7 +37,7 @@ extension NSDate {
 		var isGreater = false
 		
 		//Compare Values
-		if self.compare(dateToCompare) == NSComparisonResult.OrderedDescending
+        if self.compare(dateToCompare) == ComparisonResult.OrderedDescending
 		{
 			isGreater = true
 		}

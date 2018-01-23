@@ -143,13 +143,13 @@ class Pie: UIView, PieceDelegate {
 			
 			let indexNum = indexRaw
 			
-			if theme.isToShow(indexNum) {
+            if theme.isToShow(index: indexNum) {
 				let index = indexNum % 24
-				let angle = getAngleForHour(CGFloat(index))
+                let angle = getAngleForHour(hour: CGFloat(index))
 				let x = CGFloat(cos(angle)) * (radius + self.theme.indexPadding)
 				let y = CGFloat(sin(angle)) * (radius + self.theme.indexPadding)
 				let indexLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
-				indexLabel.center = CGPointMake(x + self.frame.width/2, y + self.frame.height/2)
+                indexLabel.center = CGPoint(x: x + self.frame.width/2, y: y + self.frame.height/2)
 				indexLabel.textAlignment = NSTextAlignment.Center
 				indexLabel.text = String(indexNum)
 				indexLabel.textColor = self.theme.indexColor
@@ -159,7 +159,7 @@ class Pie: UIView, PieceDelegate {
 		}
 	}
 	
-	override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
 		if hourHand != nil {
 			hourHand!.draw()
 			self.layer.addSublayer(hourHand!.arc)
@@ -175,7 +175,7 @@ class Pie: UIView, PieceDelegate {
 	func rotateGesture(recognizer: XMCircleGestureRecognizer) {
 		if let rotation = recognizer.rotation {
 			delegate.startTimeTravel()
-			delegate.timeTravelByInterval(NSTimeInterval(rotation.degrees*10 * CGFloat(showHours)))
+            delegate.timeTravelByInterval(TimeInterval(rotation.degrees*10 * CGFloat(showHours)))
 		}
 	}
 
@@ -190,7 +190,7 @@ private class Piece {
 	private var delegate: PieceDelegate?
 	
 	private var isToShow: Bool {
-		return endDate.isGreaterThanDate(superview.startDate) &&
+        return endDate.isGreaterThanDate(dateToCompare: superview.startDate) &&
 			startDate.isLessThanDate(superview.endDate)
 	}
 	
@@ -201,7 +201,7 @@ private class Piece {
 	private var arc = CAShapeLayer()
 	private var radius: CGFloat {
 		get {
-			return delegate?.getRadius(drawMidDate) ?? self.frame.width * 3/8
+            return delegate?.getRadius(midDate: drawMidDate) ?? self.frame.width * 3/8
 		}
 	}
 	
