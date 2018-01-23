@@ -17,7 +17,7 @@ enum ClockHandType {
 
 class ClockHand {
 	var type: ClockHandType
-	var time: NSDate
+	var time: Date
 	var arc = CAShapeLayer()
 	var clock: Pie!
 	var length: CGFloat {
@@ -28,7 +28,7 @@ class ClockHand {
 	
 
 	
-	init(type: ClockHandType, time: NSDate, superview: Pie) {
+	init(type: ClockHandType, time: Date, superview: Pie) {
 		self.type = type
 		self.time = time
 		self.clock = superview

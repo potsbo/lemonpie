@@ -19,10 +19,10 @@ protocol PieDelegate {
 }
 
 protocol PieceDelegate {
-	func getRadius(midDate: NSDate)-> CGFloat
-    func getTimeRemainingUntil(midDate: NSDate)-> TimeInterval
+	func getRadius(midDate: Date)-> CGFloat
+    func getTimeRemainingUntil(midDate: Date)-> TimeInterval
 	func getAngleForHour(hour: CGFloat) -> CGFloat
-	func getAlpha(hour: NSDate) -> CGFloat
+	func getAlpha(hour: Date) -> CGFloat
 }
 
 class Pie: UIView, PieceDelegate {
@@ -36,7 +36,7 @@ class Pie: UIView, PieceDelegate {
 		return showHours * 3600
 	}
 	
-	var startDate = NSDate() {
+	var startDate = Date() {
 		didSet {
 			adjustHands()
 			adjustPiecesInside()
@@ -52,7 +52,7 @@ class Pie: UIView, PieceDelegate {
 	var oneFingerRotation: XMCircleGestureRecognizer?
 	var indexLabels: [UILabel] = []
 
-	var endDate: NSDate {
+	var endDate: Date {
         return startDate.addingTimeInterval(Double(showSeconds))
 	}
 	
@@ -61,7 +61,7 @@ class Pie: UIView, PieceDelegate {
 		super.init(frame: frame)
 		
 
-		self.startDate = NSDate()
+		self.startDate = Date()
 		
         self.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
 		print(self.center)
@@ -80,20 +80,20 @@ class Pie: UIView, PieceDelegate {
 		}
 	}
 	
-	func getRadius(midDate: NSDate) -> CGFloat {
-		return self.radius - CGFloat(midDate.timeIntervalSinceDate(startDate))/3600 * 5
+	func getRadius(midDate: Date) -> CGFloat {
+        return self.radius - CGFloat(midDate.timeIntervalSince(startDate))/3600 * 5
 	}
 	
 	func getAngleForHour(hour: CGFloat) -> CGFloat {
 		return 2*π / CGFloat(showHours) * CGFloat(hour) - π/2
 	}
 	
-    func getTimeRemainingUntil(midDate: NSDate) -> TimeInterval {
-		return midDate.timeIntervalSinceDate(startDate)
+    func getTimeRemainingUntil(midDate: Date) -> TimeInterval {
+        return midDate.timeIntervalSince(startDate)
 	}
 	
-	func getAlpha(hour: NSDate) -> CGFloat {
-		return 1 - CGFloat(getTimeRemainingUntil(hour)/Double(showSeconds))
+	func getAlpha(hour: Date) -> CGFloat {
+        return 1 - CGFloat(getTimeRemainingUntil(midDate: hour)/Double(showSeconds))
 	}
 	
 	func adjustHands(){
@@ -113,7 +113,7 @@ class Pie: UIView, PieceDelegate {
 		pieces.append(newPiece)
 	}
 
-	func addHourHand(now: NSDate){
+	func addHourHand(now: Date){
 		hourHand = ClockHand(type: .hour, time: now, superview: self)
 	}
 	
@@ -185,13 +185,13 @@ private class Piece {
 	
 	private var superview: Pie
 	
-	private var startDate: NSDate
-	private var endDate: NSDate
+	private var startDate: Date
+	private var endDate: Date
 	private var delegate: PieceDelegate?
 	
 	private var isToShow: Bool {
         return endDate.isGreaterThanDate(dateToCompare: superview.startDate) &&
-			startDate.isLessThanDate(superview.endDate)
+            startDate.isLessThanDate(dateToCompare: superview.endDate)
 	}
 	
 	private var frame: CGRect
@@ -214,16 +214,16 @@ private class Piece {
 		self.superview = superview
 	}
 
-	private var drawStartDate: NSDate {
-		if superview.startDate.isGreaterThanDate(self.startDate) {
+	private var drawStartDate: Date {
+        if superview.startDate.isGreaterThanDate(dateToCompare: self.startDate) {
 			return superview.startDate
 		}
 		return self.startDate
 	}
 	
-	private var drawEndDate: NSDate {
+	private var drawEndDate: Date {
 		get {
-			if superview.endDate.isLessThanDate(self.endDate) {
+            if superview.endDate.isLessThanDate(dateToCompare: self.endDate) {
 				return superview.endDate
 			}
 			return self.endDate
@@ -232,12 +232,12 @@ private class Piece {
 	
 	private var startAngle: CGFloat {
 		get {
-			return getAngle(drawStartDate.hour)
+            return getAngle(hour: drawStartDate.hour)
 		}
 	}
 	private var endAngle: CGFloat {
 		get {
-			return getAngle(drawEndDate.hour)
+            return getAngle(hour: drawEndDate.hour)
 		}
 	}
 	
@@ -247,20 +247,20 @@ private class Piece {
 		}
 	}
 	
-	private var drawMidDate: NSDate {
+	private var drawMidDate: Date {
 		get {
-			return drawStartDate.dateByAddingTimeInterval(drawEndDate.timeIntervalSinceDate(drawStartDate)/2)
+            return drawStartDate.addingTimeInterval(drawEndDate.timeIntervalSinceDate(drawStartDate)/2)
 		}
 	}
 	
 	private var midAngle: CGFloat {
 		get {
-			return getAngle(drawMidDate.hour)
+            return getAngle(hour: drawMidDate.hour)
 		}
 	}
 	
 	private func getAngle(hour: CGFloat) -> CGFloat {
-		return (delegate?.getAngleForHour(hour))!
+        return (delegate?.getAngleForHour(hour: hour))!
 	}
 	
 	func draw() {

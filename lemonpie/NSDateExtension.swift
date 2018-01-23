@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension NSDate {
+extension Date {
 	var hour: CGFloat {
 		get {
             let calendar = NSCalendar.current
@@ -32,7 +32,7 @@ extension NSDate {
 		}
 	}
 
-	func isGreaterThanDate(dateToCompare : NSDate) -> Bool {
+	func isGreaterThanDate(dateToCompare : Date) -> Bool {
 		//Declare Variables
 		var isGreater = false
 		
@@ -47,7 +47,7 @@ extension NSDate {
 	}
 	
 	
-	func isLessThanDate(dateToCompare : NSDate) -> Bool {
+	func isLessThanDate(dateToCompare : Date) -> Bool {
 		//Declare Variables
 		var isLess = false
 		
@@ -62,18 +62,19 @@ extension NSDate {
 	}
 	
 	
-	func addDays(daysToAdd : Int) -> NSDate	{
+	func addDays(daysToAdd : Int) -> Date	{
         let secondsInDays : TimeInterval = Double(daysToAdd) * 60 * 60 * 24
-        let dateWithDaysAdded : NSDate = self.addingTimeInterval(secondsInDays)
+        let dateWithDaysAdded = self.addingTimeInterval(secondsInDays)
 		
 		//Return Result
 		return dateWithDaysAdded
 	}
 	
 	
-	func addHours(hoursToAdd : Int) -> NSDate {
+	func addHours(hoursToAdd : Int) -> Date {
         let secondsInHours : TimeInterval = Double(hoursToAdd) * 60 * 60
-        let dateWithHoursAdded : NSDate = self.addingTimeInterval(secondsInHours)
+        let dateWithHoursAdded
+            = self.addingTimeInterval(secondsInHours)
 		
 		//Return Result
 		return dateWithHoursAdded

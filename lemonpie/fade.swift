@@ -17,7 +17,7 @@ enum FadeType: TimeInterval {
 
 extension UIView {
 	func fadeIn(type: FadeType = .Normal, completed: (() -> ())? = nil) {
-		fadeIn(type.rawValue, completed: completed)
+        fadeIn(type: type, completed: completed)
 	}
 	
 	/** For typical purpose, use "public func fadeIn(type: FadeType = .Normal, completed: (() -> ())? = nil)" instead of this */
@@ -32,7 +32,7 @@ extension UIView {
 		}
 	}
 	func fadeOut(type: FadeType = .Normal, completed: (() -> ())? = nil) {
-		fadeOut(type.rawValue, completed: completed)
+        fadeOut(type: type, completed: completed)
 	}
 	/** For typical purpose, use "public func fadeOut(type: FadeType = .Normal, completed: (() -> ())? = nil)" instead of this */
     func fadeOut(duration: TimeInterval = FadeType.Slow.rawValue, completed: (() -> ())? = nil) {

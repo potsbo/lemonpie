@@ -32,10 +32,10 @@ class TimeDifferenceView: UIView {
 	}
 	
 	func startTimeTravel(){
-		self.fadeIn(.Slow)
+        self.fadeIn(type: .Slow)
 		timeLabel.text = "time travel"
 	}
 	func endTimeTravel(){
-		self.fadeOut(.Normal)
+        self.fadeOut(type: .Normal)
 	}
 }
