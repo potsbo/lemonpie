@@ -80,7 +80,7 @@ extension NSDate {
 	}
 }
 
-extension NSTimeInterval {
+extension TimeInterval {
 	var days: Int {
 		get {
 			return Int(self) / (3600 * 24)
