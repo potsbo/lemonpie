@@ -56,12 +56,12 @@ class CushoningTime: NSObject {
 	}
 	
 	func update(timer: Timer){
-        if abs(clockTime.timeIntervalSince(date: targetClockTime)) < 10 {
+        if abs(clockTime.timeIntervalSince(targetClockTime)) < 10 {
 			self.timer?.invalidate()
 			clockTime = targetClockTime
         } else if self.timer?.isValid == true {
 			
-            let totalInterval = clockTime.timeIntervalSince(date: targetClockTime)
+            let totalInterval = clockTime.timeIntervalSince(targetClockTime)
 			let frameInterval: TimeInterval = totalInterval/15
 			clockTime = clockTime.addingTimeInterval(-frameInterval)
 		}
