@@ -26,8 +26,8 @@ class CushoningTime: NSObject {
 		return clockTime
 	}
 	
-	init(date: Date = NSDate()){
-		targetClockTime = date ?? NSDate()
+	init(date: Date = Date()){
+		targetClockTime = date
 		startClockTime = targetClockTime
 		clockTime = targetClockTime
 	}
