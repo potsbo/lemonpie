@@ -9,7 +9,7 @@
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
-private let π = CGFloat(M_PI)
+private let π = CGFloat(Double.pi)
 
 public extension CGFloat {
     var degrees:CGFloat {
