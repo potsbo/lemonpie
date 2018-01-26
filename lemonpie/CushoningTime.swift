@@ -38,31 +38,32 @@ class CushoningTime: NSObject {
 		print("\(targetClockTime.hour)")
 		targetClockTime = newTime
 		startClockTime = clockTime
-        if force || abs(clockTime.timeIntervalSinceDate(targetClockTime)) < 10 {
+        if force || abs(clockTime.timeIntervalSince(targetClockTime)) < 10 {
 			clockTime = targetClockTime
 		} else {
-			self.timer = NSTimer.scheduledTimerWithTimeInterval(1/60, target: self, selector: "update:", userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: "update:", userInfo: nil, repeats: true)
 		}
 	}
 	
-	func dateByAddingTimeInterval(interval: NSTimeInterval, force: Bool){
+	func dateByAddingTimeInterval(interval: TimeInterval, force: Bool){
 		if force {
-			clockTime = clockTime.dateByAddingTimeInterval(interval)
+            clockTime = clockTime.addingTimeInterval(interval)
 			targetClockTime = clockTime
 		} else {
-			setNewTime(clockTime.dateByAddingTimeInterval(interval))
+            
+            setNewTime(newTime: clockTime.addingTimeInterval(interval))
 		}
 	}
 	
-	func update(timer: NSTimer){
-		if abs(clockTime.timeIntervalSinceDate(targetClockTime)) < 10 {
+	func update(timer: Timer){
+        if abs(clockTime.timeIntervalSince(date: targetClockTime)) < 10 {
 			self.timer?.invalidate()
 			clockTime = targetClockTime
-		} else if self.timer?.valid == true {
+        } else if self.timer?.isValid == true {
 			
-			let totalInterval = clockTime.timeIntervalSinceDate(targetClockTime)
-			let frameInterval: NSTimeInterval = totalInterval/15
-			clockTime = clockTime.dateByAddingTimeInterval(-frameInterval)
+            let totalInterval = clockTime.timeIntervalSince(date: targetClockTime)
+			let frameInterval: TimeInterval = totalInterval/15
+			clockTime = clockTime.addingTimeInterval(-frameInterval)
 		}
 	}
 }
