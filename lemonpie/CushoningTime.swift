@@ -9,36 +9,36 @@
 import Foundation
 
 protocol TimeManageProtocol {
-	func clockTimeChangedTo(newDate: NSDate)
+	func clockTimeChangedTo(newDate: Date)
 }
 
 class CushoningTime: NSObject {
-	private var clockTime: NSDate{
+	private var clockTime: Date{
 		didSet {
-			delegate?.clockTimeChangedTo(clockTime)
+            delegate?.clockTimeChangedTo(newDate: clockTime)
 		}
 	}
-	private var targetClockTime: NSDate
-	private var startClockTime: NSDate
+	private var targetClockTime: Date
+	private var startClockTime: Date
 	var delegate: TimeManageProtocol?
-	var timer: NSTimer?
-	var time: NSDate {
+	var timer: Timer?
+	var time: Date {
 		return clockTime
 	}
 	
-	init(date: NSDate = NSDate()){
+	init(date: Date = NSDate()){
 		targetClockTime = date ?? NSDate()
 		startClockTime = targetClockTime
 		clockTime = targetClockTime
 	}
 	
-	func setNewTime(newTime: NSDate, force: Bool = false){
+	func setNewTime(newTime: Date, force: Bool = false){
 		self.timer?.invalidate()
 		self.timer = nil
 		print("\(targetClockTime.hour)")
 		targetClockTime = newTime
 		startClockTime = clockTime
-		if force || abs(clockTime.timeIntervalSinceDate(targetClockTime)) < 10 {
+        if force || abs(clockTime.timeIntervalSinceDate(targetClockTime)) < 10 {
 			clockTime = targetClockTime
 		} else {
 			self.timer = NSTimer.scheduledTimerWithTimeInterval(1/60, target: self, selector: "update:", userInfo: nil, repeats: true)
