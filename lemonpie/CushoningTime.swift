@@ -9,60 +9,61 @@
 import Foundation
 
 protocol TimeManageProtocol {
-	func clockTimeChangedTo(newDate: NSDate)
+	func clockTimeChangedTo(newDate: Date)
 }
 
 class CushoningTime: NSObject {
-	private var clockTime: NSDate{
+	private var clockTime: Date{
 		didSet {
-			delegate?.clockTimeChangedTo(clockTime)
+            delegate?.clockTimeChangedTo(newDate: clockTime)
 		}
 	}
-	private var targetClockTime: NSDate
-	private var startClockTime: NSDate
+	private var targetClockTime: Date
+	private var startClockTime: Date
 	var delegate: TimeManageProtocol?
-	var timer: NSTimer?
-	var time: NSDate {
+	var timer: Timer?
+	var time: Date {
 		return clockTime
 	}
 	
-	init(date: NSDate = NSDate()){
-		targetClockTime = date ?? NSDate()
+	init(date: Date = Date()){
+		targetClockTime = date
 		startClockTime = targetClockTime
 		clockTime = targetClockTime
 	}
 	
-	func setNewTime(newTime: NSDate, force: Bool = false){
+	func setNewTime(newTime: Date, force: Bool = false){
 		self.timer?.invalidate()
 		self.timer = nil
 		print("\(targetClockTime.hour)")
 		targetClockTime = newTime
 		startClockTime = clockTime
-		if force || abs(clockTime.timeIntervalSinceDate(targetClockTime)) < 10 {
+        if force || abs(clockTime.timeIntervalSince(targetClockTime)) < 10 {
 			clockTime = targetClockTime
 		} else {
-			self.timer = NSTimer.scheduledTimerWithTimeInterval(1/60, target: self, selector: "update:", userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: "update:", userInfo: nil, repeats: true)
 		}
 	}
 	
-	func dateByAddingTimeInterval(interval: NSTimeInterval, force: Bool){
+	func dateByAddingTimeInterval(interval: TimeInterval, force: Bool){
 		if force {
-			clockTime = clockTime.dateByAddingTimeInterval(interval)
+            clockTime = clockTime.addingTimeInterval(interval)
 			targetClockTime = clockTime
 		} else {
-			setNewTime(clockTime.dateByAddingTimeInterval(interval))
+            
+            setNewTime(newTime: clockTime.addingTimeInterval(interval))
 		}
 	}
 	
-	func update(timer: NSTimer){
-		if abs(clockTime.timeIntervalSinceDate(targetClockTime)) < 10 {
+	func update(timer: Timer){
+        if abs(clockTime.timeIntervalSince(targetClockTime)) < 10 {
 			self.timer?.invalidate()
 			clockTime = targetClockTime
-		} else if self.timer?.valid == true {
+        } else if self.timer?.isValid == true {
 			
-			let totalInterval = clockTime.timeIntervalSinceDate(targetClockTime)
-			let frameInterval: NSTimeInterval = totalInterval/15
-			clockTime = clockTime.dateByAddingTimeInterval(-frameInterval)
+            let totalInterval = clockTime.timeIntervalSince(targetClockTime)
+			let frameInterval: TimeInterval = totalInterval/15
+			clockTime = clockTime.addingTimeInterval(-frameInterval)
 		}
 	}
 }

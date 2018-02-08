@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-private let π = CGFloat(M_PI)
+private let π = CGFloat(Double.pi)
 
 protocol PieDelegate {
 	func startTimeTravel()
@@ -66,7 +66,7 @@ class Pie: UIView, PieceDelegate {
         self.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
 		print(self.center)
 		
-		oneFingerRotation = XMCircleGestureRecognizer(midPoint: super.center, target: self, action: "rotateGesture:")
+        oneFingerRotation = XMCircleGestureRecognizer(midPoint: super.center, target: self, action: Selector("rotateGesture:"))
 		self.addGestureRecognizer(oneFingerRotation!)
 	}
 
@@ -109,7 +109,6 @@ class Pie: UIView, PieceDelegate {
 	
 	func addPiece(event: EKEvent){
 		let newPiece = Piece(frame: frame, event: event, superview: self)
-		newPiece.delegate = self
 		pieces.append(newPiece)
 	}
 
@@ -196,9 +195,9 @@ private class Piece {
 	
 	private var frame: CGRect
 	private var title: String?
-	private var titleLabel: UILabel?
+	private(set) var titleLabel: UILabel?
 	private var event: EKEvent?
-	private var arc = CAShapeLayer()
+	private(set) var arc = CAShapeLayer()
 	private var radius: CGFloat {
 		get {
             return delegate?.getRadius(midDate: drawMidDate) ?? self.frame.width * 3/8
@@ -212,6 +211,7 @@ private class Piece {
 		self.title = event.title
 		self.event = event
 		self.superview = superview
+        self.delegate = superview
 	}
 
 	private var drawStartDate: Date {

@@ -40,19 +40,19 @@ class ClockHand {
 	
 	var angle: CGFloat {
 		get {
-			return getAngle(self.time.hour)
+            return getAngle(hour: self.time.hour)
 		}
 	}
 	
 	var arcCenter: CGPoint {
 		get {
-			return CGPointMake(self.clock.frame.width/2, self.clock.frame.height/2)
+            return CGPoint(x: self.clock.frame.width/2, y: self.clock.frame.height/2)
 		}
 	}
 	
 	func draw() {
 		arc.lineWidth = 2
-		arc.strokeColor = self.clock.theme.titleLabelColor.CGColor
+		arc.strokeColor = self.clock.theme.titleLabelColor.cgColor
 		arc.fillColor = nil
 		
 		let path = UIBezierPath(arcCenter: arcCenter, radius: self.length,  startAngle: angle, endAngle: angle, clockwise: true)
